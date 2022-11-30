@@ -1,0 +1,52 @@
+{
+  "private": true,
+  "sideEffects": false,
+  "scripts": {
+    "build": "run-s \"build:*\"",
+    "build:gql": "graphql-codegen",
+    "build:css": "tailwindcss -m -i ./app/styles/app.css -o app/__generated__/tailwind.css",
+    "build:remix": "remix build",
+    "dev:css": "tailwindcss -w -i ./app/styles/app.css -o app/__generated__/tailwind.css",
+    "dev:gql": "graphql-codegen -w",
+    "dev:remix": "remix watch",
+    "dev:wrangler": "cross-env NODE_ENV=development wrangler pages dev ./public",
+    "dev": "remix build && run-p \"dev:*\"",
+    "start": "cross-env NODE_ENV=production npm run dev:wrangler"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.7.1",
+    "@remix-run/cloudflare": "^1.7.6",
+    "@remix-run/cloudflare-pages": "^1.7.6",
+    "@remix-run/react": "^1.7.6",
+    "boring-avatars": "^1.7.0",
+    "cross-env": "^7.0.3",
+    "graphql": "^16.6.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "subscriptions-transport-ws": "^0.11.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^3.18.0",
+    "@graphql-codegen/cli": "^2.14.1",
+    "@graphql-codegen/client-preset": "^1.2.0",
+    "@graphql-codegen/import-types-preset": "^2.2.6",
+    "@graphql-codegen/typescript": "^2.8.2",
+    "@graphql-codegen/typescript-operations": "^2.5.7",
+    "@graphql-codegen/typescript-react-apollo": "^3.3.7",
+    "@graphql-typed-document-node/core": "^3.1.1",
+    "@remix-run/dev": "^1.7.6",
+    "@remix-run/eslint-config": "^1.7.6",
+    "@types/react": "^17.0.52",
+    "@types/react-dom": "^17.0.18",
+    "autoprefixer": "^10.4.13",
+    "eslint": "^8.27.0",
+    "npm-run-all": "^4.1.5",
+    "postcss": "^8.4.19",
+    "tailwindcss": "^3.2.4",
+    "typescript": "^4.9.3",
+    "wrangler": "^2.2.1"
+  },
+  "engines": {
+    "node": ">=16.13"
+  }
+}

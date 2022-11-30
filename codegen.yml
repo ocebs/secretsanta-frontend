@@ -1,0 +1,8 @@
+schema: https://gql.ocebs.com/graphql
+documents: ["./app/**/*.tsx"]
+generates:
+  app/__generated__/gql.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-react-apollo
