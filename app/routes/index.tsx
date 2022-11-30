@@ -120,7 +120,7 @@ export default function Index() {
                           )}
                         </div>
                       </div>
-                      {lastMessage.timestamp && (
+                      {lastMessage?.timestamp && (
                         <div>
                           {new Date(lastMessage.timestamp).toLocaleString()}
                         </div>
