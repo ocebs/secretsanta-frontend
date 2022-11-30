@@ -160,7 +160,7 @@ export default function MatchupRoute() {
           </div>
         </div>
       </header>
-      <div className="flex flex-col max-w-screen-lg gap-1 p-6 mx-auto">
+      <div className="flex flex-col w-full max-w-screen-lg gap-1 p-6 mx-auto">
         {messages?.map((node, n) => {
           if (!matchup) throw "what the fuck";
           const previousMessage = messages[n - 1];
@@ -178,7 +178,7 @@ export default function MatchupRoute() {
               title={new Date(node?.timestamp).toLocaleString()}
             >
               <div
-                className={`w-12 h-full rounded-3xl items-center flex overflow-hidden justify-center text-xl flex-shrink-0 bg-neutral-200 ${
+                className={`w-12 h-full rounded-3xl items-end flex overflow-hidden justify-center text-xl flex-shrink-0 ${
                   nextMessage?.sender == node.sender ? "opacity-0" : ""
                 }`}
               >
