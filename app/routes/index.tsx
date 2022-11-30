@@ -1,51 +1,131 @@
 import { useQuery, useSubscription, gql } from "@apollo/client";
 import { Link } from "@remix-run/react";
+import Avatar from "boring-avatars";
+import {
+  MatchupListingLiveSubscription,
+  MatchupListingQuery,
+} from "~/__generated__/gql";
 
-const query = gql`
-  query MatchupListing {
-    matchups {
-      nodes {
-        id
-        profileBySender {
-          name
-          bio
-          address
-          countryByCountry {
+const matchupFragment = gql`
+  fragment MatchupInfo on MatchupsConnection {
+    nodes {
+      id
+      sender
+      recipient
+      messagesByMatchup(last: 1) {
+        nodes {
+          id
+          sender
+          profileBySender {
             id
             name
           }
+          message
+          timestamp
         }
-        profileByRecipient {
+      }
+      profileBySender {
+        id
+        name
+        bio
+        address
+        countryByCountry {
+          id
           name
-          bio
-          address
-          countryByCountry {
-            id
-            name
-          }
+        }
+      }
+      profileByRecipient {
+        id
+        name
+        bio
+        address
+        countryByCountry {
+          id
+          name
         }
       }
     }
   }
 `;
 
+const query = gql`
+  ${matchupFragment}
+  query MatchupListing {
+    currentProfileId
+    matchups {
+      ...MatchupInfo
+    }
+  }
+`;
+const subscription = gql`
+  ${matchupFragment}
+  subscription MatchupListingLive {
+    matchups {
+      ...MatchupInfo
+    }
+  }
+`;
+
 export default function Index() {
-  const { data, loading, error } = useQuery(query);
+  const { data } = useQuery<MatchupListingQuery>(query);
+  const { data: liveData } =
+    useSubscription<MatchupListingLiveSubscription>(subscription);
+
+  const matchups = (liveData ?? data)?.matchups?.nodes;
 
   return (
-    <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.4" }}>
-      {data?.matchups?.nodes?.length ?? 0 > 0 ? (
+    <div className="max-w-screen-lg p-6 mx-auto">
+      {(matchups?.length ?? 0) > 0 ? (
         <div>
           {data ? (
             <ol>
-              {data?.matchups?.nodes.map((matchup) => (
-                <li key={matchup.id}>
-                  <Link to={`/matchup/${matchup.id}`}>
-                    {matchup.profileBySender?.name ?? "Mystery Man"} &rarr;{" "}
-                    {matchup.profileByRecipient?.name ?? "Mystery Man"}
-                  </Link>
-                </li>
-              ))}
+              {data?.matchups?.nodes.map((matchup) => {
+                const [lastMessage] = [
+                  ...(matchup?.messagesByMatchup.nodes ?? []),
+                ].splice(-1);
+                return (
+                  <li key={matchup.id}>
+                    <Link
+                      to={`/matchup/${matchup.id}`}
+                      className="flex items-center gap-3 p-4 rounded-full hover:bg-black/5"
+                    >
+                      <div>
+                        <Avatar
+                          name={
+                            matchup.sender === data.currentProfileId
+                              ? matchup.recipient
+                              : matchup.sender
+                          }
+                          size={64}
+                          variant="beam"
+                        />
+                      </div>
+                      <div className="flex flex-col flex-1 gap-1">
+                        <div className="text-xl">
+                          {(matchup.sender === data.currentProfileId
+                            ? matchup.profileByRecipient
+                            : matchup.profileBySender
+                          )?.name ?? "Mystery man"}
+                        </div>
+                        <div>
+                          {!lastMessage ? (
+                            <em>No messages</em>
+                          ) : (
+                            `${
+                              lastMessage.profileBySender?.name ?? "Mystery Man"
+                            }: ${lastMessage.message}`
+                          )}
+                        </div>
+                      </div>
+                      {lastMessage.timestamp && (
+                        <div>
+                          {new Date(lastMessage.timestamp).toLocaleString()}
+                        </div>
+                      )}
+                    </Link>
+                  </li>
+                );
+              })}
             </ol>
           ) : (
             <div>not logged in </div>
