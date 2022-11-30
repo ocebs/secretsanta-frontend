@@ -79,7 +79,7 @@ export default function App() {
       </head>
       <body className="dark:bg-gray-900 dark:text-gray-200">
         <header
-          className={`bg-gradient-to-r from-blue-600 to-pink-700 text-white`}
+          className={`bg-gradient-to-r from-blue-600 to-pink-700 text-white h-20`}
         >
           <div
             className={`max-w-screen-lg mx-auto h-20 px-6 sm:px-8 flex gap-4 items-center justify-between relative`}
@@ -101,7 +101,7 @@ export default function App() {
               />
             </Link>
             <div className="flex-1" />
-            <nav className="relative flex items-center gap-2">
+            <nav className="relative items-center hidden gap-2 md:flex">
               {navlinks.map((i) => (
                 <Link
                   key={i.href}

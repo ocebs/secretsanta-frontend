@@ -125,7 +125,7 @@ export default function MatchupRoute() {
   return (
     <>
       <header
-        className="sticky top-0 bg-white shadow dark:bg-gray-900 dark:text-white"
+        className="sticky top-0 z-20 bg-white shadow dark:bg-gray-900 dark:text-white"
         key="matchup-header"
       >
         <div className="flex items-center max-w-screen-lg gap-1.5 p-4 px-6 mx-auto">
@@ -168,7 +168,8 @@ export default function MatchupRoute() {
           </div>
         </div>
       </header>
-      <div className="flex flex-col w-full max-w-screen-lg gap-1 p-6 mx-auto">
+      <div className="absolute w-full h-96 dots top-[9.5rem]"></div>
+      <div className="z-10 flex flex-col w-full max-w-screen-lg gap-1 p-6 py-12 mx-auto">
         {messages?.map((node, n) => {
           if (!matchup) throw "what the fuck";
           const previousMessage = messages[n - 1];
