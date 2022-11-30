@@ -85,7 +85,7 @@ const sendMessageMutation = gql`
   mutation SendMessage($message: String!, $matchup: UUID!, $sender: UUID!) {
     createMessage(
       input: {
-        message: { sender: $from, message: $message, matchup: $matchup }
+        message: { sender: $sender, message: $message, matchup: $matchup }
       }
     ) {
       message {
@@ -212,13 +212,14 @@ export default function MatchupRoute() {
               }`}
               title={new Date(node?.timestamp).toLocaleString()}
             >
-              <div
+              <Link
+                to={`/profile/${node.sender}`}
                 className={`w-12 h-full rounded-3xl items-end flex overflow-hidden justify-center text-xl flex-shrink-0 ${
                   nextMessage?.sender == node.sender ? "opacity-0" : ""
                 }`}
               >
                 <Avatar name={node.sender} square size={48} variant="beam" />
-              </div>
+              </Link>
               <div
                 className={`p-3 px-6 ${
                   staticData?.currentProfileId == node.sender
