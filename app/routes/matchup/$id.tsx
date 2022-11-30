@@ -1,9 +1,16 @@
-import { useQuery, useSubscription, gql } from "@apollo/client";
+import { useQuery, useSubscription, gql, useMutation } from "@apollo/client";
 import { json, type LoaderFunction } from "@remix-run/cloudflare";
 import { Link, useLoaderData } from "@remix-run/react";
 import Avatar from "boring-avatars";
+import { useState } from "react";
 import LoadingScreen from "~/components/LoadingScreen";
-import { MatchupMessagesSubscription, MatchupQuery } from "~/__generated__/gql";
+import {
+  MatchupMessagesSubscription,
+  MatchupQuery,
+  SendMessageMutation,
+} from "~/__generated__/gql";
+
+import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
 
 interface ParamsLoader {
   params: { id: string };
@@ -30,6 +37,7 @@ const matchupFragments = gql`
     }
   }
   fragment Matchup on Matchup {
+    id
     sender
     recipient
     profileBySender {
@@ -73,6 +81,20 @@ const profileQuery = gql`
   }
 `;
 
+const sendMessageMutation = gql`
+  mutation SendMessage($message: String!, $matchup: UUID!, $from: UUID) {
+    createMessage(
+      input: {
+        message: { sender: $from, message: $message, matchup: $matchup }
+      }
+    ) {
+      message {
+        id
+      }
+    }
+  }
+`;
+
 const messageSubscription = gql`
   ${matchupFragments}
   subscription MatchupMessages($matchup: UUID!, $cursor: Cursor) {
@@ -88,6 +110,8 @@ const messageSubscription = gql`
 
 export default function MatchupRoute() {
   const { params } = useLoaderData<ParamsLoader>();
+  const [sendMessage, { loading: sendLoading, error: sendError }] =
+    useMutation<SendMessageMutation>(sendMessageMutation);
 
   const { data: staticData, loading: loadingProfile } = useQuery<MatchupQuery>(
     profileQuery,
@@ -107,6 +131,8 @@ export default function MatchupRoute() {
       },
     }
   );
+
+  const [currentMessage, setMessage] = useState("");
 
   if (staticData && !staticData?.currentProfile) return <h1>not logged in</h1>;
 
@@ -169,7 +195,7 @@ export default function MatchupRoute() {
         </div>
       </header>
       <div className="absolute w-full h-96 dots top-[9.5rem]"></div>
-      <div className="z-10 flex flex-col w-full max-w-screen-lg gap-1 p-6 py-12 mx-auto">
+      <div className="z-10 flex flex-col flex-1 w-full max-w-screen-lg gap-1 p-0 pt-12 pb-0 mx-auto">
         {messages?.map((node, n) => {
           if (!matchup) throw "what the fuck";
           const previousMessage = messages[n - 1];
@@ -217,6 +243,48 @@ export default function MatchupRoute() {
             </div>
           );
         })}
+        <div className="flex-1"></div>
+        {sendError && (
+          <div className="px-6 text-red-600">{sendError.message}</div>
+        )}
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            const message = currentMessage;
+            sendMessage({
+              variables: {
+                message,
+                matchup: matchup.id,
+                sender: staticData?.currentProfileId,
+              },
+            }).then(() => setMessage(""));
+          }}
+          className="sticky bottom-0 flex gap-2 p-4"
+        >
+          <input
+            type="text"
+            value={currentMessage}
+            onChange={(e) => setMessage(e.target.value)}
+            className={[
+              `flex-1 p-4 px-6 ${
+                !sendLoading
+                  ? "bg-white dark:bg-gray-900"
+                  : "bg-gray-200 dark:bg-gray-800"
+              } ring-gray-200 dark:ring-gray-800 rounded-full ring-2 ring-inset focus:outline-none focus:ring-blue-600`,
+              "",
+            ].join("\n")}
+            autoFocus
+            placeholder="Message"
+            disabled={sendLoading}
+          />
+          <button
+            type="submit"
+            disabled={sendLoading}
+            className="flex items-center justify-center p-3 text-white bg-blue-600 rounded-full hover:brightness-150 aspect-square"
+          >
+            <PaperAirplaneIcon className="w-6 h-6" />
+          </button>
+        </form>
       </div>
     </>
   );

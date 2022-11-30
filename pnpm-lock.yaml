@@ -10,6 +10,7 @@ specifiers:
   '@graphql-codegen/typescript-operations': ^2.5.7
   '@graphql-codegen/typescript-react-apollo': ^3.3.7
   '@graphql-typed-document-node/core': ^3.1.1
+  '@heroicons/react': ^2.0.13
   '@remix-run/cloudflare': ^1.7.6
   '@remix-run/cloudflare-pages': ^1.7.6
   '@remix-run/dev': ^1.7.6
@@ -34,6 +35,7 @@ specifiers:
 
 dependencies:
   '@apollo/client': 3.7.1_nkevpmu6n4vaol2vfpihdrrpni
+  '@heroicons/react': 2.0.13_react@17.0.2
   '@remix-run/cloudflare': 1.7.6_arfmlatn6u4eernl72rvcbrwnm
   '@remix-run/cloudflare-pages': 1.7.6_arfmlatn6u4eernl72rvcbrwnm
   '@remix-run/react': 1.7.6_sfoxds7t5ydpegc3knd667wn6m
@@ -2192,6 +2194,14 @@ packages:
       graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
     dependencies:
       graphql: 16.6.0
+
+  /@heroicons/react/2.0.13_react@17.0.2:
+    resolution: {integrity: sha512-iSN5XwmagrnirWlYEWNPdCDj9aRYVD/lnK3JlsC9/+fqGF80k8C7rl+1HCvBX0dBoagKqOFBs6fMhJJ1hOg1EQ==}
+    peerDependencies:
+      react: '>= 16'
+    dependencies:
+      react: 17.0.2
+    dev: false
 
   /@humanwhocodes/config-array/0.11.7:
     resolution: {integrity: sha512-kBbPWzN8oVMLb0hOUYXhmxggL/1cJE6ydvjDIGi9EnAGUyA7cLVKQg+d/Dsm+KZwx2czGHrCmMVLiyg8s5JPKw==}
