@@ -65,7 +65,7 @@ export const meta: MetaFunction = () => ({
 });
 
 export default function App() {
-  const { data, loading } = useQuery<HeaderProfileQuery>(profileQuery);
+  const { data, loading, refetch } = useQuery<HeaderProfileQuery>(profileQuery);
   const [login, { loading: submitting }] = useMutation<CreateSessionMutation>(
     createSessionMutation
   );

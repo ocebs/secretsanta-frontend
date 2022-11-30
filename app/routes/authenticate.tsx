@@ -26,7 +26,7 @@ export default function AuthenticatePage() {
   });
   if (data?.currentProfileId) {
     return (
-      <div className="w-full max-w-screen-lg p-4 mx-auto text-lg prose">
+      <div className="w-full max-w-screen-lg p-4 mx-auto text-lg prose dark:prose-invert">
         <p>You're already logged in.</p>
         <p>
           If you're not automatically redirected,{" "}
@@ -37,9 +37,9 @@ export default function AuthenticatePage() {
     );
   }
 
-  return (
+  return data?.currentSession ? (
     <div className="flex items-center justify-center flex-1">
-      <article className="prose">
+      <article className="prose dark:prose-invert">
         <h1>Log in to OCE secret santa</h1>
         <p>
           To finish logging in to the website, go to{" "}
@@ -51,6 +51,16 @@ export default function AuthenticatePage() {
         <pre>
           <code>/secretsanta login {data?.currentSession?.id}</code>
         </pre>
+      </article>
+    </div>
+  ) : (
+    <div className="flex items-center justify-center flex-1">
+      <article className="prose dark:prose-invert">
+        <h1>No Session</h1>
+        <p>
+          To log in, click the button in the top right corner and reload the
+          page.
+        </p>
       </article>
     </div>
   );
