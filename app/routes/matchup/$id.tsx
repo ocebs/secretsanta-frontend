@@ -82,7 +82,7 @@ const profileQuery = gql`
 `;
 
 const sendMessageMutation = gql`
-  mutation SendMessage($message: String!, $matchup: UUID!, $from: UUID) {
+  mutation SendMessage($message: String!, $matchup: UUID!, $sender: UUID!) {
     createMessage(
       input: {
         message: { sender: $from, message: $message, matchup: $matchup }
