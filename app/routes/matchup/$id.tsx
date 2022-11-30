@@ -110,6 +110,10 @@ export default function MatchupRoute() {
 
   if (staticData && !staticData?.currentProfile) return <h1>not logged in</h1>;
 
+  if (loadingProfile || (staticData === undefined && data === undefined)) {
+    return <LoadingScreen />;
+  }
+
   const matchup = (data ?? staticData)?.matchup;
   const messages = [
     ...(staticData?.matchup?.messagesByMatchup?.nodes ?? []),
@@ -118,9 +122,7 @@ export default function MatchupRoute() {
 
   if (!matchup) return <div>Matchup not found</div>;
 
-  return loadingProfile || loading ? (
-    <LoadingScreen />
-  ) : (
+  return (
     <>
       <header
         className="sticky top-0 bg-white shadow dark:bg-gray-900 dark:text-white"

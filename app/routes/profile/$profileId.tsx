@@ -2,6 +2,7 @@ import { gql, useQuery } from "@apollo/client";
 import { json, LoaderFunction } from "@remix-run/cloudflare";
 import { useLoaderData } from "@remix-run/react";
 import Avatar from "boring-avatars";
+import LoadingScreen from "~/components/LoadingScreen";
 import { ProfilePageQuery } from "~/__generated__/gql";
 
 interface ParamsLoader {
@@ -41,6 +42,8 @@ export default function ProfilePage() {
       variables: { id: profileId },
     }
   );
+
+  if (loading || data == undefined) return <LoadingScreen />;
 
   if (!data?.profile) return <div>Profile not found</div>;
 

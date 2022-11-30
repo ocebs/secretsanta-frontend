@@ -74,7 +74,7 @@ export default function Index() {
 
   const matchups = (liveData ?? data)?.matchups?.nodes;
 
-  return loading && liveLoading ? (
+  return (loading && liveLoading) || data === undefined ? (
     <LoadingScreen />
   ) : (
     <div className="w-full max-w-screen-lg p-6 mx-auto">
