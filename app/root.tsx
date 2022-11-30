@@ -77,14 +77,14 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className="dark:bg-gray-900 dark:text-gray-200">
         <header
           className={`bg-gradient-to-r from-blue-600 to-pink-700 text-white`}
         >
           <div
             className={`max-w-screen-lg mx-auto h-20 px-6 sm:px-8 flex gap-4 items-center justify-between relative`}
           >
-            <a href="/" className="flex items-center gap-3">
+            <Link to="/" className="flex items-center gap-3">
               <img
                 src={new Date().getMonth() == 5 ? "/gaysabre.svg" : "/logo.svg"}
                 className={`h-10 transition-transform transform-gpu hover:-rotate-12 rounded-full`}
@@ -99,19 +99,19 @@ export default function App() {
                 className="hidden h-5 -skew-x-12 sm:block"
                 alt=""
               />
-            </a>
+            </Link>
             <div className="flex-1" />
             <nav className="relative flex items-center gap-2">
               {navlinks.map((i) => (
-                <a
+                <Link
                   key={i.href}
-                  href={i.href}
+                  to={i.href}
                   className={`" block px-4 py-2.5 rounded whitespace-nowrap overflow-hidden text-ellipsis ${
                     "/" == i.href ? "bg-white/10" : "hover:bg-white/10"
                   }`}
                 >
                   {i.label}
-                </a>
+                </Link>
               ))}
             </nav>
             {loading || submitting ? (

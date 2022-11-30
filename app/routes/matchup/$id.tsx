@@ -2,6 +2,7 @@ import { useQuery, useSubscription, gql } from "@apollo/client";
 import { json, type LoaderFunction } from "@remix-run/cloudflare";
 import { Link, useLoaderData } from "@remix-run/react";
 import Avatar from "boring-avatars";
+import LoadingScreen from "~/components/LoadingScreen";
 import { MatchupMessagesSubscription, MatchupQuery } from "~/__generated__/gql";
 
 interface ParamsLoader {
@@ -117,9 +118,14 @@ export default function MatchupRoute() {
 
   if (!matchup) return <div>Matchup not found</div>;
 
-  return (
+  return loadingProfile || loading ? (
+    <LoadingScreen />
+  ) : (
     <>
-      <header className="sticky top-0 bg-white shadow" key="matchup-header">
+      <header
+        className="sticky top-0 bg-white shadow dark:bg-gray-900 dark:text-white"
+        key="matchup-header"
+      >
         <div className="flex items-center max-w-screen-lg gap-1.5 p-4 px-6 mx-auto">
           {matchup?.sender !== staticData?.currentProfileId ? (
             <>
@@ -188,7 +194,7 @@ export default function MatchupRoute() {
                 className={`p-3 px-6 ${
                   staticData?.currentProfileId == node.sender
                     ? "bg-blue-600 text-white"
-                    : "bg-neutral-200 text-black"
+                    : "bg-gray-200 text-black dark:bg-gray-800 dark:text-white"
                 } rounded-3xl max-w-xl ${
                   nextMessage?.sender == node.sender
                     ? node.sender == staticData?.currentProfileId

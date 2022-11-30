@@ -10,3 +10,11 @@ body {
 body {
   @apply flex flex-col;
 }
+
+@layer components {
+  .dots {
+    background-image: radial-gradient(currentcolor 2px, transparent 2px);
+    background-size: 2rem 2rem;
+    mask-image: linear-gradient(to bottom, #fff2, #0000);
+  }
+}

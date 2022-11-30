@@ -1,6 +1,7 @@
 import { useQuery, useSubscription, gql } from "@apollo/client";
 import { Link } from "@remix-run/react";
 import Avatar from "boring-avatars";
+import LoadingScreen from "~/components/LoadingScreen";
 import {
   MatchupListingLiveSubscription,
   MatchupListingQuery,
@@ -67,14 +68,16 @@ const subscription = gql`
 `;
 
 export default function Index() {
-  const { data } = useQuery<MatchupListingQuery>(query);
-  const { data: liveData } =
+  const { data, loading } = useQuery<MatchupListingQuery>(query);
+  const { data: liveData, loading: liveLoading } =
     useSubscription<MatchupListingLiveSubscription>(subscription);
 
   const matchups = (liveData ?? data)?.matchups?.nodes;
 
-  return (
-    <div className="max-w-screen-lg p-6 mx-auto">
+  return loading && liveLoading ? (
+    <LoadingScreen />
+  ) : (
+    <div className="w-full max-w-screen-lg p-6 mx-auto">
       {(matchups?.length ?? 0) > 0 ? (
         <div>
           {data ? (
@@ -87,7 +90,7 @@ export default function Index() {
                   <li key={matchup.id}>
                     <Link
                       to={`/matchup/${matchup.id}`}
-                      className="flex items-center gap-3 p-4 rounded-full hover:bg-black/5"
+                      className="flex items-center gap-3 p-4 rounded-full hover:bg-black/5 dark:hover:bg-white/5"
                     >
                       <div>
                         <Avatar

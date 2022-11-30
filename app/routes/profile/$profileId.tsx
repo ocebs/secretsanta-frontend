@@ -47,29 +47,32 @@ export default function ProfilePage() {
   const profile = data.profile;
 
   return !error ? (
-    <div className="w-full max-w-screen-lg p-6 mx-auto">
-      <div className="flex items-center gap-5 py-12 ">
-        <Avatar name={profile.id} size={128} variant="beam" />
-        <div className="flex flex-col gap-1">
-          <h1 className="text-4xl">{profile.name}</h1>
-          <div className="text-2xl">
-            {flags[(profile.country ?? -2) - 1]}{" "}
-            {profile.countryByCountry?.name}
+    <>
+      <div className="absolute w-full dots h-96 -z-10"></div>
+      <div className="w-full max-w-screen-lg p-6 mx-auto">
+        <div className="flex items-center gap-5 py-12 ">
+          <Avatar name={profile.id} size={128} variant="beam" />
+          <div className="flex flex-col gap-1">
+            <h1 className="text-4xl">{profile.name}</h1>
+            <div className="text-2xl">
+              {flags[(profile.country ?? -2) - 1]}{" "}
+              {profile.countryByCountry?.name}
+            </div>
           </div>
         </div>
-      </div>
-      <div className="p-4 mb-6 prose bg-gray-100 rounded-lg max-w-none">
-        <h2>Bio</h2>
-        {profile.bio}
-      </div>
+        <div className="p-4 mb-6 prose rounded-lg dark:prose-invert max-w-none">
+          <h2>Bio</h2>
+          {profile.bio}
+        </div>
 
-      <div className="p-4 prose bg-gray-100 rounded-lg max-w-none">
-        <h2>Address</h2>
-        <pre className="p-0 text-black bg-gray-100 ">
-          {profile.address ?? "No address"}
-        </pre>
+        <div className="p-4 prose rounded-lg dark:prose-invert max-w-none">
+          <h2>Address</h2>
+          <pre className="p-0 text-black bg-transparent text-inherit ">
+            {profile.address ?? "No address"}
+          </pre>
+        </div>
       </div>
-    </div>
+    </>
   ) : (
     <pre className="text-red-600">{JSON.stringify(error)}</pre>
   );
