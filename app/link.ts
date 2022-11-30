@@ -26,7 +26,10 @@ export default function getLink(cookieString: string) {
   });
 
   const httpLink = new BatchHttpLink({
-    uri: "https://gql.ocebs.com/graphql",
+    uri:
+      typeof window == "undefined"
+        ? "https://gql.ocebs.com/graphql"
+        : "/graphql",
   });
 
   const token = cookies.get("token");
