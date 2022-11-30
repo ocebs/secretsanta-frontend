@@ -1,4 +1,4 @@
-schema: https://gql.ocebs.com/graphql
+schema: ./schema.graphql
 documents: ["./app/**/*.tsx"]
 generates:
   app/__generated__/gql.ts:

@@ -1,4 +1,6 @@
-"""The root query type which gives access points into the data universe."""
+"""
+The root query type which gives access points into the data universe.
+"""
 type Query implements Node {
   """
   Exposes the root query type nested one level down. This is helpful for Relay 1
@@ -9,20 +11,30 @@ type Query implements Node {
   """
   The root query type must be a `Node` to work well with Relay 1 mutations. This just resolves to `query`.
   """
-  id: ID!
+  nodeId: ID!
 
-  """Fetches an object given its globally unique `ID`."""
+  """
+  Fetches an object given its globally unique `ID`.
+  """
   node(
-    """The globally unique `ID`."""
-    id: ID!
+    """
+    The globally unique `ID`.
+    """
+    nodeId: ID!
   ): Node
 
-  """Reads and enables pagination through a set of `Country`."""
+  """
+  Reads and enables pagination through a set of `Country`.
+  """
   countries(
-    """Only read the first `n` values of the set."""
+    """
+    Only read the first `n` values of the set.
+    """
     first: Int
 
-    """Only read the last `n` values of the set."""
+    """
+    Only read the last `n` values of the set.
+    """
     last: Int
 
     """
@@ -31,13 +43,19 @@ type Query implements Node {
     """
     offset: Int
 
-    """Read all values in the set before (above) this cursor."""
+    """
+    Read all values in the set before (above) this cursor.
+    """
     before: Cursor
 
-    """Read all values in the set after (below) this cursor."""
+    """
+    Read all values in the set after (below) this cursor.
+    """
     after: Cursor
 
-    """The method to use when ordering `Country`."""
+    """
+    The method to use when ordering `Country`.
+    """
     orderBy: [CountriesOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
@@ -46,12 +64,18 @@ type Query implements Node {
     condition: CountryCondition
   ): CountriesConnection
 
-  """Reads and enables pagination through a set of `Matchup`."""
+  """
+  Reads and enables pagination through a set of `Matchup`.
+  """
   matchups(
-    """Only read the first `n` values of the set."""
+    """
+    Only read the first `n` values of the set.
+    """
     first: Int
 
-    """Only read the last `n` values of the set."""
+    """
+    Only read the last `n` values of the set.
+    """
     last: Int
 
     """
@@ -60,13 +84,19 @@ type Query implements Node {
     """
     offset: Int
 
-    """Read all values in the set before (above) this cursor."""
+    """
+    Read all values in the set before (above) this cursor.
+    """
     before: Cursor
 
-    """Read all values in the set after (below) this cursor."""
+    """
+    Read all values in the set after (below) this cursor.
+    """
     after: Cursor
 
-    """The method to use when ordering `Matchup`."""
+    """
+    The method to use when ordering `Matchup`.
+    """
     orderBy: [MatchupsOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
@@ -75,12 +105,18 @@ type Query implements Node {
     condition: MatchupCondition
   ): MatchupsConnection
 
-  """Reads and enables pagination through a set of `Message`."""
+  """
+  Reads and enables pagination through a set of `Message`.
+  """
   messages(
-    """Only read the first `n` values of the set."""
+    """
+    Only read the first `n` values of the set.
+    """
     first: Int
 
-    """Only read the last `n` values of the set."""
+    """
+    Only read the last `n` values of the set.
+    """
     last: Int
 
     """
@@ -89,13 +125,19 @@ type Query implements Node {
     """
     offset: Int
 
-    """Read all values in the set before (above) this cursor."""
+    """
+    Read all values in the set before (above) this cursor.
+    """
     before: Cursor
 
-    """Read all values in the set after (below) this cursor."""
+    """
+    Read all values in the set after (below) this cursor.
+    """
     after: Cursor
 
-    """The method to use when ordering `Message`."""
+    """
+    The method to use when ordering `Message`.
+    """
     orderBy: [MessagesOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
@@ -104,12 +146,18 @@ type Query implements Node {
     condition: MessageCondition
   ): MessagesConnection
 
-  """Reads and enables pagination through a set of `Profile`."""
+  """
+  Reads and enables pagination through a set of `Profile`.
+  """
   profiles(
-    """Only read the first `n` values of the set."""
+    """
+    Only read the first `n` values of the set.
+    """
     first: Int
 
-    """Only read the last `n` values of the set."""
+    """
+    Only read the last `n` values of the set.
+    """
     last: Int
 
     """
@@ -118,13 +166,19 @@ type Query implements Node {
     """
     offset: Int
 
-    """Read all values in the set before (above) this cursor."""
+    """
+    Read all values in the set before (above) this cursor.
+    """
     before: Cursor
 
-    """Read all values in the set after (below) this cursor."""
+    """
+    Read all values in the set after (below) this cursor.
+    """
     after: Cursor
 
-    """The method to use when ordering `Profile`."""
+    """
+    The method to use when ordering `Profile`.
+    """
     orderBy: [ProfilesOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
@@ -132,53 +186,75 @@ type Query implements Node {
     """
     condition: ProfileCondition
   ): ProfilesConnection
-  country(rowId: Int!): Country
+  country(id: Int!): Country
   countryByName(name: String!): Country
-  matchup(rowId: UUID!): Matchup
-  message(rowId: UUID!): Message
-  profile(rowId: UUID!): Profile
+  matchup(id: UUID!): Matchup
+  message(id: UUID!): Message
+  profile(id: UUID!): Profile
   profileByUser(user: BigInt!): Profile
   currentProfile: Profile
   currentProfileId: UUID
   currentSession: Session
   currentUser: User
 
-  """Reads a single `Country` using its globally unique `ID`."""
-  countryById(
-    """The globally unique `ID` to be used in selecting a single `Country`."""
-    id: ID!
+  """
+  Reads a single `Country` using its globally unique `ID`.
+  """
+  countryByNodeId(
+    """
+    The globally unique `ID` to be used in selecting a single `Country`.
+    """
+    nodeId: ID!
   ): Country
 
-  """Reads a single `Matchup` using its globally unique `ID`."""
-  matchupById(
-    """The globally unique `ID` to be used in selecting a single `Matchup`."""
-    id: ID!
+  """
+  Reads a single `Matchup` using its globally unique `ID`.
+  """
+  matchupByNodeId(
+    """
+    The globally unique `ID` to be used in selecting a single `Matchup`.
+    """
+    nodeId: ID!
   ): Matchup
 
-  """Reads a single `Message` using its globally unique `ID`."""
-  messageById(
-    """The globally unique `ID` to be used in selecting a single `Message`."""
-    id: ID!
+  """
+  Reads a single `Message` using its globally unique `ID`.
+  """
+  messageByNodeId(
+    """
+    The globally unique `ID` to be used in selecting a single `Message`.
+    """
+    nodeId: ID!
   ): Message
 
-  """Reads a single `Profile` using its globally unique `ID`."""
-  profileById(
-    """The globally unique `ID` to be used in selecting a single `Profile`."""
-    id: ID!
+  """
+  Reads a single `Profile` using its globally unique `ID`.
+  """
+  profileByNodeId(
+    """
+    The globally unique `ID` to be used in selecting a single `Profile`.
+    """
+    nodeId: ID!
   ): Profile
 }
 
-"""An object with a globally unique `ID`."""
+"""
+An object with a globally unique `ID`.
+"""
 interface Node {
   """
   A globally unique identifier. Can be used in various places throughout the system to identify this single value.
   """
-  id: ID!
+  nodeId: ID!
 }
 
-"""A connection to a list of `Country` values."""
+"""
+A connection to a list of `Country` values.
+"""
 type CountriesConnection {
-  """A list of `Country` objects."""
+  """
+  A list of `Country` objects.
+  """
   nodes: [Country!]!
 
   """
@@ -186,10 +262,14 @@ type CountriesConnection {
   """
   edges: [CountriesEdge!]!
 
-  """Information to aid in pagination."""
+  """
+  Information to aid in pagination.
+  """
   pageInfo: PageInfo!
 
-  """The count of *all* `Country` you could get from the connection."""
+  """
+  The count of *all* `Country` you could get from the connection.
+  """
   totalCount: Int!
 }
 
@@ -197,16 +277,22 @@ type Country implements Node {
   """
   A globally unique identifier. Can be used in various places throughout the system to identify this single value.
   """
-  id: ID!
-  rowId: Int!
+  nodeId: ID!
+  id: Int!
   name: String
 
-  """Reads and enables pagination through a set of `Profile`."""
+  """
+  Reads and enables pagination through a set of `Profile`.
+  """
   profilesByCountry(
-    """Only read the first `n` values of the set."""
+    """
+    Only read the first `n` values of the set.
+    """
     first: Int
 
-    """Only read the last `n` values of the set."""
+    """
+    Only read the last `n` values of the set.
+    """
     last: Int
 
     """
@@ -215,13 +301,19 @@ type Country implements Node {
     """
     offset: Int
 
-    """Read all values in the set before (above) this cursor."""
+    """
+    Read all values in the set before (above) this cursor.
+    """
     before: Cursor
 
-    """Read all values in the set after (below) this cursor."""
+    """
+    Read all values in the set after (below) this cursor.
+    """
     after: Cursor
 
-    """The method to use when ordering `Profile`."""
+    """
+    The method to use when ordering `Profile`.
+    """
     orderBy: [ProfilesOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
@@ -231,9 +323,13 @@ type Country implements Node {
   ): ProfilesConnection!
 }
 
-"""A connection to a list of `Profile` values."""
+"""
+A connection to a list of `Profile` values.
+"""
 type ProfilesConnection {
-  """A list of `Profile` objects."""
+  """
+  A list of `Profile` objects.
+  """
   nodes: [Profile!]!
 
   """
@@ -241,10 +337,14 @@ type ProfilesConnection {
   """
   edges: [ProfilesEdge!]!
 
-  """Information to aid in pagination."""
+  """
+  Information to aid in pagination.
+  """
   pageInfo: PageInfo!
 
-  """The count of *all* `Profile` you could get from the connection."""
+  """
+  The count of *all* `Profile` you could get from the connection.
+  """
   totalCount: Int!
 }
 
@@ -252,23 +352,31 @@ type Profile implements Node {
   """
   A globally unique identifier. Can be used in various places throughout the system to identify this single value.
   """
-  id: ID!
-  rowId: UUID!
+  nodeId: ID!
+  id: UUID!
   user: BigInt
   name: String
   bio: String
   address: String
   country: Int
 
-  """Reads a single `Country` that is related to this `Profile`."""
+  """
+  Reads a single `Country` that is related to this `Profile`.
+  """
   countryByCountry: Country
 
-  """Reads and enables pagination through a set of `Matchup`."""
+  """
+  Reads and enables pagination through a set of `Matchup`.
+  """
   matchupsBySender(
-    """Only read the first `n` values of the set."""
+    """
+    Only read the first `n` values of the set.
+    """
     first: Int
 
-    """Only read the last `n` values of the set."""
+    """
+    Only read the last `n` values of the set.
+    """
     last: Int
 
     """
@@ -277,13 +385,19 @@ type Profile implements Node {
     """
     offset: Int
 
-    """Read all values in the set before (above) this cursor."""
+    """
+    Read all values in the set before (above) this cursor.
+    """
     before: Cursor
 
-    """Read all values in the set after (below) this cursor."""
+    """
+    Read all values in the set after (below) this cursor.
+    """
     after: Cursor
 
-    """The method to use when ordering `Matchup`."""
+    """
+    The method to use when ordering `Matchup`.
+    """
     orderBy: [MatchupsOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
@@ -292,12 +406,18 @@ type Profile implements Node {
     condition: MatchupCondition
   ): MatchupsConnection!
 
-  """Reads and enables pagination through a set of `Matchup`."""
+  """
+  Reads and enables pagination through a set of `Matchup`.
+  """
   matchupsByRecipient(
-    """Only read the first `n` values of the set."""
+    """
+    Only read the first `n` values of the set.
+    """
     first: Int
 
-    """Only read the last `n` values of the set."""
+    """
+    Only read the last `n` values of the set.
+    """
     last: Int
 
     """
@@ -306,13 +426,19 @@ type Profile implements Node {
     """
     offset: Int
 
-    """Read all values in the set before (above) this cursor."""
+    """
+    Read all values in the set before (above) this cursor.
+    """
     before: Cursor
 
-    """Read all values in the set after (below) this cursor."""
+    """
+    Read all values in the set after (below) this cursor.
+    """
     after: Cursor
 
-    """The method to use when ordering `Matchup`."""
+    """
+    The method to use when ordering `Matchup`.
+    """
     orderBy: [MatchupsOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
@@ -321,12 +447,18 @@ type Profile implements Node {
     condition: MatchupCondition
   ): MatchupsConnection!
 
-  """Reads and enables pagination through a set of `Message`."""
+  """
+  Reads and enables pagination through a set of `Message`.
+  """
   messagesBySender(
-    """Only read the first `n` values of the set."""
+    """
+    Only read the first `n` values of the set.
+    """
     first: Int
 
-    """Only read the last `n` values of the set."""
+    """
+    Only read the last `n` values of the set.
+    """
     last: Int
 
     """
@@ -335,13 +467,19 @@ type Profile implements Node {
     """
     offset: Int
 
-    """Read all values in the set before (above) this cursor."""
+    """
+    Read all values in the set before (above) this cursor.
+    """
     before: Cursor
 
-    """Read all values in the set after (below) this cursor."""
+    """
+    Read all values in the set after (below) this cursor.
+    """
     after: Cursor
 
-    """The method to use when ordering `Message`."""
+    """
+    The method to use when ordering `Message`.
+    """
     orderBy: [MessagesOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
@@ -363,9 +501,13 @@ strings and not numbers.
 """
 scalar BigInt
 
-"""A connection to a list of `Matchup` values."""
+"""
+A connection to a list of `Matchup` values.
+"""
 type MatchupsConnection {
-  """A list of `Matchup` objects."""
+  """
+  A list of `Matchup` objects.
+  """
   nodes: [Matchup!]!
 
   """
@@ -373,10 +515,14 @@ type MatchupsConnection {
   """
   edges: [MatchupsEdge!]!
 
-  """Information to aid in pagination."""
+  """
+  Information to aid in pagination.
+  """
   pageInfo: PageInfo!
 
-  """The count of *all* `Matchup` you could get from the connection."""
+  """
+  The count of *all* `Matchup` you could get from the connection.
+  """
   totalCount: Int!
 }
 
@@ -384,23 +530,33 @@ type Matchup implements Node {
   """
   A globally unique identifier. Can be used in various places throughout the system to identify this single value.
   """
-  id: ID!
-  rowId: UUID!
+  nodeId: ID!
+  id: UUID!
   sender: UUID
   recipient: UUID
 
-  """Reads a single `Profile` that is related to this `Matchup`."""
+  """
+  Reads a single `Profile` that is related to this `Matchup`.
+  """
   profileBySender: Profile
 
-  """Reads a single `Profile` that is related to this `Matchup`."""
+  """
+  Reads a single `Profile` that is related to this `Matchup`.
+  """
   profileByRecipient: Profile
 
-  """Reads and enables pagination through a set of `Message`."""
+  """
+  Reads and enables pagination through a set of `Message`.
+  """
   messagesByMatchup(
-    """Only read the first `n` values of the set."""
+    """
+    Only read the first `n` values of the set.
+    """
     first: Int
 
-    """Only read the last `n` values of the set."""
+    """
+    Only read the last `n` values of the set.
+    """
     last: Int
 
     """
@@ -409,13 +565,19 @@ type Matchup implements Node {
     """
     offset: Int
 
-    """Read all values in the set before (above) this cursor."""
+    """
+    Read all values in the set before (above) this cursor.
+    """
     before: Cursor
 
-    """Read all values in the set after (below) this cursor."""
+    """
+    Read all values in the set after (below) this cursor.
+    """
     after: Cursor
 
-    """The method to use when ordering `Message`."""
+    """
+    The method to use when ordering `Message`.
+    """
     orderBy: [MessagesOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
@@ -425,9 +587,13 @@ type Matchup implements Node {
   ): MessagesConnection!
 }
 
-"""A connection to a list of `Message` values."""
+"""
+A connection to a list of `Message` values.
+"""
 type MessagesConnection {
-  """A list of `Message` objects."""
+  """
+  A list of `Message` objects.
+  """
   nodes: [Message!]!
 
   """
@@ -435,10 +601,14 @@ type MessagesConnection {
   """
   edges: [MessagesEdge!]!
 
-  """Information to aid in pagination."""
+  """
+  Information to aid in pagination.
+  """
   pageInfo: PageInfo!
 
-  """The count of *all* `Message` you could get from the connection."""
+  """
+  The count of *all* `Message` you could get from the connection.
+  """
   totalCount: Int!
 }
 
@@ -446,17 +616,21 @@ type Message implements Node {
   """
   A globally unique identifier. Can be used in various places throughout the system to identify this single value.
   """
-  id: ID!
-  rowId: UUID!
+  nodeId: ID!
+  id: UUID!
   sender: UUID
   timestamp: Datetime
   message: String
   matchup: UUID
 
-  """Reads a single `Profile` that is related to this `Message`."""
+  """
+  Reads a single `Profile` that is related to this `Message`.
+  """
   profileBySender: Profile
 
-  """Reads a single `Matchup` that is related to this `Message`."""
+  """
+  Reads a single `Matchup` that is related to this `Message`.
+  """
   matchupByMatchup: Matchup
 }
 
@@ -466,34 +640,54 @@ A point in time as described by the [ISO
 """
 scalar Datetime
 
-"""A `Message` edge in the connection."""
+"""
+A `Message` edge in the connection.
+"""
 type MessagesEdge {
-  """A cursor for use in pagination."""
+  """
+  A cursor for use in pagination.
+  """
   cursor: Cursor
 
-  """The `Message` at the end of the edge."""
+  """
+  The `Message` at the end of the edge.
+  """
   node: Message!
 }
 
-"""A location in a connection that can be used for resuming pagination."""
+"""
+A location in a connection that can be used for resuming pagination.
+"""
 scalar Cursor
 
-"""Information about pagination in a connection."""
+"""
+Information about pagination in a connection.
+"""
 type PageInfo {
-  """When paginating forwards, are there more items?"""
+  """
+  When paginating forwards, are there more items?
+  """
   hasNextPage: Boolean!
 
-  """When paginating backwards, are there more items?"""
+  """
+  When paginating backwards, are there more items?
+  """
   hasPreviousPage: Boolean!
 
-  """When paginating backwards, the cursor to continue."""
+  """
+  When paginating backwards, the cursor to continue.
+  """
   startCursor: Cursor
 
-  """When paginating forwards, the cursor to continue."""
+  """
+  When paginating forwards, the cursor to continue.
+  """
   endCursor: Cursor
 }
 
-"""Methods to use when ordering `Message`."""
+"""
+Methods to use when ordering `Message`.
+"""
 enum MessagesOrderBy {
   NATURAL
   ID_ASC
@@ -514,32 +708,50 @@ enum MessagesOrderBy {
 A condition to be used against `Message` object types. All fields are tested for equality and combined with a logical ‘and.’
 """
 input MessageCondition {
-  """Checks for equality with the object’s `rowId` field."""
-  rowId: UUID
+  """
+  Checks for equality with the object’s `id` field.
+  """
+  id: UUID
 
-  """Checks for equality with the object’s `sender` field."""
+  """
+  Checks for equality with the object’s `sender` field.
+  """
   sender: UUID
 
-  """Checks for equality with the object’s `timestamp` field."""
+  """
+  Checks for equality with the object’s `timestamp` field.
+  """
   timestamp: Datetime
 
-  """Checks for equality with the object’s `message` field."""
+  """
+  Checks for equality with the object’s `message` field.
+  """
   message: String
 
-  """Checks for equality with the object’s `matchup` field."""
+  """
+  Checks for equality with the object’s `matchup` field.
+  """
   matchup: UUID
 }
 
-"""A `Matchup` edge in the connection."""
+"""
+A `Matchup` edge in the connection.
+"""
 type MatchupsEdge {
-  """A cursor for use in pagination."""
+  """
+  A cursor for use in pagination.
+  """
   cursor: Cursor
 
-  """The `Matchup` at the end of the edge."""
+  """
+  The `Matchup` at the end of the edge.
+  """
   node: Matchup!
 }
 
-"""Methods to use when ordering `Matchup`."""
+"""
+Methods to use when ordering `Matchup`.
+"""
 enum MatchupsOrderBy {
   NATURAL
   ID_ASC
@@ -556,26 +768,40 @@ enum MatchupsOrderBy {
 A condition to be used against `Matchup` object types. All fields are tested for equality and combined with a logical ‘and.’
 """
 input MatchupCondition {
-  """Checks for equality with the object’s `rowId` field."""
-  rowId: UUID
+  """
+  Checks for equality with the object’s `id` field.
+  """
+  id: UUID
 
-  """Checks for equality with the object’s `sender` field."""
+  """
+  Checks for equality with the object’s `sender` field.
+  """
   sender: UUID
 
-  """Checks for equality with the object’s `recipient` field."""
+  """
+  Checks for equality with the object’s `recipient` field.
+  """
   recipient: UUID
 }
 
-"""A `Profile` edge in the connection."""
+"""
+A `Profile` edge in the connection.
+"""
 type ProfilesEdge {
-  """A cursor for use in pagination."""
+  """
+  A cursor for use in pagination.
+  """
   cursor: Cursor
 
-  """The `Profile` at the end of the edge."""
+  """
+  The `Profile` at the end of the edge.
+  """
   node: Profile!
 }
 
-"""Methods to use when ordering `Profile`."""
+"""
+Methods to use when ordering `Profile`.
+"""
 enum ProfilesOrderBy {
   NATURAL
   ID_ASC
@@ -598,35 +824,55 @@ enum ProfilesOrderBy {
 A condition to be used against `Profile` object types. All fields are tested for equality and combined with a logical ‘and.’
 """
 input ProfileCondition {
-  """Checks for equality with the object’s `rowId` field."""
-  rowId: UUID
+  """
+  Checks for equality with the object’s `id` field.
+  """
+  id: UUID
 
-  """Checks for equality with the object’s `user` field."""
+  """
+  Checks for equality with the object’s `user` field.
+  """
   user: BigInt
 
-  """Checks for equality with the object’s `name` field."""
+  """
+  Checks for equality with the object’s `name` field.
+  """
   name: String
 
-  """Checks for equality with the object’s `bio` field."""
+  """
+  Checks for equality with the object’s `bio` field.
+  """
   bio: String
 
-  """Checks for equality with the object’s `address` field."""
+  """
+  Checks for equality with the object’s `address` field.
+  """
   address: String
 
-  """Checks for equality with the object’s `country` field."""
+  """
+  Checks for equality with the object’s `country` field.
+  """
   country: Int
 }
 
-"""A `Country` edge in the connection."""
+"""
+A `Country` edge in the connection.
+"""
 type CountriesEdge {
-  """A cursor for use in pagination."""
+  """
+  A cursor for use in pagination.
+  """
   cursor: Cursor
 
-  """The `Country` at the end of the edge."""
+  """
+  The `Country` at the end of the edge.
+  """
   node: Country!
 }
 
-"""Methods to use when ordering `Country`."""
+"""
+Methods to use when ordering `Country`.
+"""
 enum CountriesOrderBy {
   NATURAL
   ID_ASC
@@ -641,22 +887,26 @@ enum CountriesOrderBy {
 A condition to be used against `Country` object types. All fields are tested for equality and combined with a logical ‘and.’
 """
 input CountryCondition {
-  """Checks for equality with the object’s `rowId` field."""
-  rowId: Int
+  """
+  Checks for equality with the object’s `id` field.
+  """
+  id: Int
 
-  """Checks for equality with the object’s `name` field."""
+  """
+  Checks for equality with the object’s `name` field.
+  """
   name: String
 }
 
 type Session {
-  rowId: UUID!
+  id: UUID!
   timestamp: Datetime!
   user: BigInt
   description: String
 }
 
 type User {
-  rowId: BigInt!
+  id: BigInt!
   lastlogin: Datetime
   role: String
 }
@@ -665,7 +915,9 @@ type User {
 The root mutation type which contains root level fields which mutate data.
 """
 type Mutation {
-  """Creates a single `Country`."""
+  """
+  Creates a single `Country`.
+  """
   createCountry(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -673,7 +925,9 @@ type Mutation {
     input: CreateCountryInput!
   ): CreateCountryPayload
 
-  """Creates a single `Matchup`."""
+  """
+  Creates a single `Matchup`.
+  """
   createMatchup(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -681,7 +935,9 @@ type Mutation {
     input: CreateMatchupInput!
   ): CreateMatchupPayload
 
-  """Creates a single `Message`."""
+  """
+  Creates a single `Message`.
+  """
   createMessage(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -689,7 +945,9 @@ type Mutation {
     input: CreateMessageInput!
   ): CreateMessagePayload
 
-  """Creates a single `Profile`."""
+  """
+  Creates a single `Profile`.
+  """
   createProfile(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -697,15 +955,19 @@ type Mutation {
     input: CreateProfileInput!
   ): CreateProfilePayload
 
-  """Updates a single `Country` using its globally unique id and a patch."""
-  updateCountryById(
+  """
+  Updates a single `Country` using its globally unique id and a patch.
+  """
+  updateCountryByNodeId(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: UpdateCountryByIdInput!
+    input: UpdateCountryByNodeIdInput!
   ): UpdateCountryPayload
 
-  """Updates a single `Country` using a unique key and a patch."""
+  """
+  Updates a single `Country` using a unique key and a patch.
+  """
   updateCountry(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -713,7 +975,9 @@ type Mutation {
     input: UpdateCountryInput!
   ): UpdateCountryPayload
 
-  """Updates a single `Country` using a unique key and a patch."""
+  """
+  Updates a single `Country` using a unique key and a patch.
+  """
   updateCountryByName(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -721,15 +985,19 @@ type Mutation {
     input: UpdateCountryByNameInput!
   ): UpdateCountryPayload
 
-  """Updates a single `Matchup` using its globally unique id and a patch."""
-  updateMatchupById(
+  """
+  Updates a single `Matchup` using its globally unique id and a patch.
+  """
+  updateMatchupByNodeId(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: UpdateMatchupByIdInput!
+    input: UpdateMatchupByNodeIdInput!
   ): UpdateMatchupPayload
 
-  """Updates a single `Matchup` using a unique key and a patch."""
+  """
+  Updates a single `Matchup` using a unique key and a patch.
+  """
   updateMatchup(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -737,15 +1005,19 @@ type Mutation {
     input: UpdateMatchupInput!
   ): UpdateMatchupPayload
 
-  """Updates a single `Message` using its globally unique id and a patch."""
-  updateMessageById(
+  """
+  Updates a single `Message` using its globally unique id and a patch.
+  """
+  updateMessageByNodeId(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: UpdateMessageByIdInput!
+    input: UpdateMessageByNodeIdInput!
   ): UpdateMessagePayload
 
-  """Updates a single `Message` using a unique key and a patch."""
+  """
+  Updates a single `Message` using a unique key and a patch.
+  """
   updateMessage(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -753,15 +1025,19 @@ type Mutation {
     input: UpdateMessageInput!
   ): UpdateMessagePayload
 
-  """Updates a single `Profile` using its globally unique id and a patch."""
-  updateProfileById(
+  """
+  Updates a single `Profile` using its globally unique id and a patch.
+  """
+  updateProfileByNodeId(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: UpdateProfileByIdInput!
+    input: UpdateProfileByNodeIdInput!
   ): UpdateProfilePayload
 
-  """Updates a single `Profile` using a unique key and a patch."""
+  """
+  Updates a single `Profile` using a unique key and a patch.
+  """
   updateProfile(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -769,7 +1045,9 @@ type Mutation {
     input: UpdateProfileInput!
   ): UpdateProfilePayload
 
-  """Updates a single `Profile` using a unique key and a patch."""
+  """
+  Updates a single `Profile` using a unique key and a patch.
+  """
   updateProfileByUser(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -777,15 +1055,19 @@ type Mutation {
     input: UpdateProfileByUserInput!
   ): UpdateProfilePayload
 
-  """Deletes a single `Country` using its globally unique id."""
-  deleteCountryById(
+  """
+  Deletes a single `Country` using its globally unique id.
+  """
+  deleteCountryByNodeId(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: DeleteCountryByIdInput!
+    input: DeleteCountryByNodeIdInput!
   ): DeleteCountryPayload
 
-  """Deletes a single `Country` using a unique key."""
+  """
+  Deletes a single `Country` using a unique key.
+  """
   deleteCountry(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -793,7 +1075,9 @@ type Mutation {
     input: DeleteCountryInput!
   ): DeleteCountryPayload
 
-  """Deletes a single `Country` using a unique key."""
+  """
+  Deletes a single `Country` using a unique key.
+  """
   deleteCountryByName(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -801,15 +1085,19 @@ type Mutation {
     input: DeleteCountryByNameInput!
   ): DeleteCountryPayload
 
-  """Deletes a single `Matchup` using its globally unique id."""
-  deleteMatchupById(
+  """
+  Deletes a single `Matchup` using its globally unique id.
+  """
+  deleteMatchupByNodeId(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: DeleteMatchupByIdInput!
+    input: DeleteMatchupByNodeIdInput!
   ): DeleteMatchupPayload
 
-  """Deletes a single `Matchup` using a unique key."""
+  """
+  Deletes a single `Matchup` using a unique key.
+  """
   deleteMatchup(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -817,15 +1105,19 @@ type Mutation {
     input: DeleteMatchupInput!
   ): DeleteMatchupPayload
 
-  """Deletes a single `Message` using its globally unique id."""
-  deleteMessageById(
+  """
+  Deletes a single `Message` using its globally unique id.
+  """
+  deleteMessageByNodeId(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: DeleteMessageByIdInput!
+    input: DeleteMessageByNodeIdInput!
   ): DeleteMessagePayload
 
-  """Deletes a single `Message` using a unique key."""
+  """
+  Deletes a single `Message` using a unique key.
+  """
   deleteMessage(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -833,15 +1125,19 @@ type Mutation {
     input: DeleteMessageInput!
   ): DeleteMessagePayload
 
-  """Deletes a single `Profile` using its globally unique id."""
-  deleteProfileById(
+  """
+  Deletes a single `Profile` using its globally unique id.
+  """
+  deleteProfileByNodeId(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: DeleteProfileByIdInput!
+    input: DeleteProfileByNodeIdInput!
   ): DeleteProfilePayload
 
-  """Deletes a single `Profile` using a unique key."""
+  """
+  Deletes a single `Profile` using a unique key.
+  """
   deleteProfile(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -849,7 +1145,9 @@ type Mutation {
     input: DeleteProfileInput!
   ): DeleteProfilePayload
 
-  """Deletes a single `Profile` using a unique key."""
+  """
+  Deletes a single `Profile` using a unique key.
+  """
   deleteProfileByUser(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -864,7 +1162,9 @@ type Mutation {
   ): CreateSessionPayload
 }
 
-"""The output of our create `Country` mutation."""
+"""
+The output of our create `Country` mutation.
+"""
 type CreateCountryPayload {
   """
   The exact same `clientMutationId` that was provided in the mutation input,
@@ -872,7 +1172,9 @@ type CreateCountryPayload {
   """
   clientMutationId: String
 
-  """The `Country` that was created by this mutation."""
+  """
+  The `Country` that was created by this mutation.
+  """
   country: Country
 
   """
@@ -880,14 +1182,20 @@ type CreateCountryPayload {
   """
   query: Query
 
-  """An edge for our `Country`. May be used by Relay 1."""
+  """
+  An edge for our `Country`. May be used by Relay 1.
+  """
   countryEdge(
-    """The method to use when ordering `Country`."""
+    """
+    The method to use when ordering `Country`.
+    """
     orderBy: [CountriesOrderBy!] = [PRIMARY_KEY_ASC]
   ): CountriesEdge
 }
 
-"""All input for the create `Country` mutation."""
+"""
+All input for the create `Country` mutation.
+"""
 input CreateCountryInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
@@ -895,16 +1203,22 @@ input CreateCountryInput {
   """
   clientMutationId: String
 
-  """The `Country` to be created by this mutation."""
+  """
+  The `Country` to be created by this mutation.
+  """
   country: CountryInput!
 }
 
-"""An input for mutations affecting `Country`"""
+"""
+An input for mutations affecting `Country`
+"""
 input CountryInput {
   name: String
 }
 
-"""The output of our create `Matchup` mutation."""
+"""
+The output of our create `Matchup` mutation.
+"""
 type CreateMatchupPayload {
   """
   The exact same `clientMutationId` that was provided in the mutation input,
@@ -912,7 +1226,9 @@ type CreateMatchupPayload {
   """
   clientMutationId: String
 
-  """The `Matchup` that was created by this mutation."""
+  """
+  The `Matchup` that was created by this mutation.
+  """
   matchup: Matchup
 
   """
@@ -920,20 +1236,30 @@ type CreateMatchupPayload {
   """
   query: Query
 
-  """Reads a single `Profile` that is related to this `Matchup`."""
+  """
+  Reads a single `Profile` that is related to this `Matchup`.
+  """
   profileBySender: Profile
 
-  """Reads a single `Profile` that is related to this `Matchup`."""
+  """
+  Reads a single `Profile` that is related to this `Matchup`.
+  """
   profileByRecipient: Profile
 
-  """An edge for our `Matchup`. May be used by Relay 1."""
+  """
+  An edge for our `Matchup`. May be used by Relay 1.
+  """
   matchupEdge(
-    """The method to use when ordering `Matchup`."""
+    """
+    The method to use when ordering `Matchup`.
+    """
     orderBy: [MatchupsOrderBy!] = [PRIMARY_KEY_ASC]
   ): MatchupsEdge
 }
 
-"""All input for the create `Matchup` mutation."""
+"""
+All input for the create `Matchup` mutation.
+"""
 input CreateMatchupInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
@@ -941,18 +1267,24 @@ input CreateMatchupInput {
   """
   clientMutationId: String
 
-  """The `Matchup` to be created by this mutation."""
+  """
+  The `Matchup` to be created by this mutation.
+  """
   matchup: MatchupInput!
 }
 
-"""An input for mutations affecting `Matchup`"""
+"""
+An input for mutations affecting `Matchup`
+"""
 input MatchupInput {
-  rowId: UUID
+  id: UUID
   sender: UUID
   recipient: UUID
 }
 
-"""The output of our create `Message` mutation."""
+"""
+The output of our create `Message` mutation.
+"""
 type CreateMessagePayload {
   """
   The exact same `clientMutationId` that was provided in the mutation input,
@@ -960,7 +1292,9 @@ type CreateMessagePayload {
   """
   clientMutationId: String
 
-  """The `Message` that was created by this mutation."""
+  """
+  The `Message` that was created by this mutation.
+  """
   message: Message
 
   """
@@ -968,20 +1302,30 @@ type CreateMessagePayload {
   """
   query: Query
 
-  """Reads a single `Profile` that is related to this `Message`."""
+  """
+  Reads a single `Profile` that is related to this `Message`.
+  """
   profileBySender: Profile
 
-  """Reads a single `Matchup` that is related to this `Message`."""
+  """
+  Reads a single `Matchup` that is related to this `Message`.
+  """
   matchupByMatchup: Matchup
 
-  """An edge for our `Message`. May be used by Relay 1."""
+  """
+  An edge for our `Message`. May be used by Relay 1.
+  """
   messageEdge(
-    """The method to use when ordering `Message`."""
+    """
+    The method to use when ordering `Message`.
+    """
     orderBy: [MessagesOrderBy!] = [PRIMARY_KEY_ASC]
   ): MessagesEdge
 }
 
-"""All input for the create `Message` mutation."""
+"""
+All input for the create `Message` mutation.
+"""
 input CreateMessageInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
@@ -989,20 +1333,26 @@ input CreateMessageInput {
   """
   clientMutationId: String
 
-  """The `Message` to be created by this mutation."""
+  """
+  The `Message` to be created by this mutation.
+  """
   message: MessageInput!
 }
 
-"""An input for mutations affecting `Message`"""
+"""
+An input for mutations affecting `Message`
+"""
 input MessageInput {
-  rowId: UUID
+  id: UUID
   sender: UUID
   timestamp: Datetime
   message: String
   matchup: UUID
 }
 
-"""The output of our create `Profile` mutation."""
+"""
+The output of our create `Profile` mutation.
+"""
 type CreateProfilePayload {
   """
   The exact same `clientMutationId` that was provided in the mutation input,
@@ -1010,7 +1360,9 @@ type CreateProfilePayload {
   """
   clientMutationId: String
 
-  """The `Profile` that was created by this mutation."""
+  """
+  The `Profile` that was created by this mutation.
+  """
   profile: Profile
 
   """
@@ -1018,17 +1370,25 @@ type CreateProfilePayload {
   """
   query: Query
 
-  """Reads a single `Country` that is related to this `Profile`."""
+  """
+  Reads a single `Country` that is related to this `Profile`.
+  """
   countryByCountry: Country
 
-  """An edge for our `Profile`. May be used by Relay 1."""
+  """
+  An edge for our `Profile`. May be used by Relay 1.
+  """
   profileEdge(
-    """The method to use when ordering `Profile`."""
+    """
+    The method to use when ordering `Profile`.
+    """
     orderBy: [ProfilesOrderBy!] = [PRIMARY_KEY_ASC]
   ): ProfilesEdge
 }
 
-"""All input for the create `Profile` mutation."""
+"""
+All input for the create `Profile` mutation.
+"""
 input CreateProfileInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
@@ -1036,13 +1396,17 @@ input CreateProfileInput {
   """
   clientMutationId: String
 
-  """The `Profile` to be created by this mutation."""
+  """
+  The `Profile` to be created by this mutation.
+  """
   profile: ProfileInput!
 }
 
-"""An input for mutations affecting `Profile`"""
+"""
+An input for mutations affecting `Profile`
+"""
 input ProfileInput {
-  rowId: UUID
+  id: UUID
   user: BigInt
   name: String
   bio: String
@@ -1050,7 +1414,9 @@ input ProfileInput {
   country: Int
 }
 
-"""The output of our update `Country` mutation."""
+"""
+The output of our update `Country` mutation.
+"""
 type UpdateCountryPayload {
   """
   The exact same `clientMutationId` that was provided in the mutation input,
@@ -1058,7 +1424,9 @@ type UpdateCountryPayload {
   """
   clientMutationId: String
 
-  """The `Country` that was updated by this mutation."""
+  """
+  The `Country` that was updated by this mutation.
+  """
   country: Country
 
   """
@@ -1066,15 +1434,21 @@ type UpdateCountryPayload {
   """
   query: Query
 
-  """An edge for our `Country`. May be used by Relay 1."""
+  """
+  An edge for our `Country`. May be used by Relay 1.
+  """
   countryEdge(
-    """The method to use when ordering `Country`."""
+    """
+    The method to use when ordering `Country`.
+    """
     orderBy: [CountriesOrderBy!] = [PRIMARY_KEY_ASC]
   ): CountriesEdge
 }
 
-"""All input for the `updateCountryById` mutation."""
-input UpdateCountryByIdInput {
+"""
+All input for the `updateCountryByNodeId` mutation.
+"""
+input UpdateCountryByNodeIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -1084,7 +1458,7 @@ input UpdateCountryByIdInput {
   """
   The globally unique `ID` which will identify a single `Country` to be updated.
   """
-  id: ID!
+  nodeId: ID!
 
   """
   An object where the defined keys will be set on the `Country` being updated.
@@ -1099,7 +1473,9 @@ input CountryPatch {
   name: String
 }
 
-"""All input for the `updateCountry` mutation."""
+"""
+All input for the `updateCountry` mutation.
+"""
 input UpdateCountryInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
@@ -1111,10 +1487,12 @@ input UpdateCountryInput {
   An object where the defined keys will be set on the `Country` being updated.
   """
   patch: CountryPatch!
-  rowId: Int!
+  id: Int!
 }
 
-"""All input for the `updateCountryByName` mutation."""
+"""
+All input for the `updateCountryByName` mutation.
+"""
 input UpdateCountryByNameInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
@@ -1129,7 +1507,9 @@ input UpdateCountryByNameInput {
   name: String!
 }
 
-"""The output of our update `Matchup` mutation."""
+"""
+The output of our update `Matchup` mutation.
+"""
 type UpdateMatchupPayload {
   """
   The exact same `clientMutationId` that was provided in the mutation input,
@@ -1137,7 +1517,9 @@ type UpdateMatchupPayload {
   """
   clientMutationId: String
 
-  """The `Matchup` that was updated by this mutation."""
+  """
+  The `Matchup` that was updated by this mutation.
+  """
   matchup: Matchup
 
   """
@@ -1145,21 +1527,31 @@ type UpdateMatchupPayload {
   """
   query: Query
 
-  """Reads a single `Profile` that is related to this `Matchup`."""
+  """
+  Reads a single `Profile` that is related to this `Matchup`.
+  """
   profileBySender: Profile
 
-  """Reads a single `Profile` that is related to this `Matchup`."""
+  """
+  Reads a single `Profile` that is related to this `Matchup`.
+  """
   profileByRecipient: Profile
 
-  """An edge for our `Matchup`. May be used by Relay 1."""
+  """
+  An edge for our `Matchup`. May be used by Relay 1.
+  """
   matchupEdge(
-    """The method to use when ordering `Matchup`."""
+    """
+    The method to use when ordering `Matchup`.
+    """
     orderBy: [MatchupsOrderBy!] = [PRIMARY_KEY_ASC]
   ): MatchupsEdge
 }
 
-"""All input for the `updateMatchupById` mutation."""
-input UpdateMatchupByIdInput {
+"""
+All input for the `updateMatchupByNodeId` mutation.
+"""
+input UpdateMatchupByNodeIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -1169,7 +1561,7 @@ input UpdateMatchupByIdInput {
   """
   The globally unique `ID` which will identify a single `Matchup` to be updated.
   """
-  id: ID!
+  nodeId: ID!
 
   """
   An object where the defined keys will be set on the `Matchup` being updated.
@@ -1181,12 +1573,14 @@ input UpdateMatchupByIdInput {
 Represents an update to a `Matchup`. Fields that are set will be updated.
 """
 input MatchupPatch {
-  rowId: UUID
+  id: UUID
   sender: UUID
   recipient: UUID
 }
 
-"""All input for the `updateMatchup` mutation."""
+"""
+All input for the `updateMatchup` mutation.
+"""
 input UpdateMatchupInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
@@ -1198,10 +1592,12 @@ input UpdateMatchupInput {
   An object where the defined keys will be set on the `Matchup` being updated.
   """
   patch: MatchupPatch!
-  rowId: UUID!
+  id: UUID!
 }
 
-"""The output of our update `Message` mutation."""
+"""
+The output of our update `Message` mutation.
+"""
 type UpdateMessagePayload {
   """
   The exact same `clientMutationId` that was provided in the mutation input,
@@ -1209,7 +1605,9 @@ type UpdateMessagePayload {
   """
   clientMutationId: String
 
-  """The `Message` that was updated by this mutation."""
+  """
+  The `Message` that was updated by this mutation.
+  """
   message: Message
 
   """
@@ -1217,21 +1615,31 @@ type UpdateMessagePayload {
   """
   query: Query
 
-  """Reads a single `Profile` that is related to this `Message`."""
+  """
+  Reads a single `Profile` that is related to this `Message`.
+  """
   profileBySender: Profile
 
-  """Reads a single `Matchup` that is related to this `Message`."""
+  """
+  Reads a single `Matchup` that is related to this `Message`.
+  """
   matchupByMatchup: Matchup
 
-  """An edge for our `Message`. May be used by Relay 1."""
+  """
+  An edge for our `Message`. May be used by Relay 1.
+  """
   messageEdge(
-    """The method to use when ordering `Message`."""
+    """
+    The method to use when ordering `Message`.
+    """
     orderBy: [MessagesOrderBy!] = [PRIMARY_KEY_ASC]
   ): MessagesEdge
 }
 
-"""All input for the `updateMessageById` mutation."""
-input UpdateMessageByIdInput {
+"""
+All input for the `updateMessageByNodeId` mutation.
+"""
+input UpdateMessageByNodeIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -1241,7 +1649,7 @@ input UpdateMessageByIdInput {
   """
   The globally unique `ID` which will identify a single `Message` to be updated.
   """
-  id: ID!
+  nodeId: ID!
 
   """
   An object where the defined keys will be set on the `Message` being updated.
@@ -1253,14 +1661,16 @@ input UpdateMessageByIdInput {
 Represents an update to a `Message`. Fields that are set will be updated.
 """
 input MessagePatch {
-  rowId: UUID
+  id: UUID
   sender: UUID
   timestamp: Datetime
   message: String
   matchup: UUID
 }
 
-"""All input for the `updateMessage` mutation."""
+"""
+All input for the `updateMessage` mutation.
+"""
 input UpdateMessageInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
@@ -1272,10 +1682,12 @@ input UpdateMessageInput {
   An object where the defined keys will be set on the `Message` being updated.
   """
   patch: MessagePatch!
-  rowId: UUID!
+  id: UUID!
 }
 
-"""The output of our update `Profile` mutation."""
+"""
+The output of our update `Profile` mutation.
+"""
 type UpdateProfilePayload {
   """
   The exact same `clientMutationId` that was provided in the mutation input,
@@ -1283,7 +1695,9 @@ type UpdateProfilePayload {
   """
   clientMutationId: String
 
-  """The `Profile` that was updated by this mutation."""
+  """
+  The `Profile` that was updated by this mutation.
+  """
   profile: Profile
 
   """
@@ -1291,18 +1705,26 @@ type UpdateProfilePayload {
   """
   query: Query
 
-  """Reads a single `Country` that is related to this `Profile`."""
+  """
+  Reads a single `Country` that is related to this `Profile`.
+  """
   countryByCountry: Country
 
-  """An edge for our `Profile`. May be used by Relay 1."""
+  """
+  An edge for our `Profile`. May be used by Relay 1.
+  """
   profileEdge(
-    """The method to use when ordering `Profile`."""
+    """
+    The method to use when ordering `Profile`.
+    """
     orderBy: [ProfilesOrderBy!] = [PRIMARY_KEY_ASC]
   ): ProfilesEdge
 }
 
-"""All input for the `updateProfileById` mutation."""
-input UpdateProfileByIdInput {
+"""
+All input for the `updateProfileByNodeId` mutation.
+"""
+input UpdateProfileByNodeIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -1312,7 +1734,7 @@ input UpdateProfileByIdInput {
   """
   The globally unique `ID` which will identify a single `Profile` to be updated.
   """
-  id: ID!
+  nodeId: ID!
 
   """
   An object where the defined keys will be set on the `Profile` being updated.
@@ -1324,7 +1746,7 @@ input UpdateProfileByIdInput {
 Represents an update to a `Profile`. Fields that are set will be updated.
 """
 input ProfilePatch {
-  rowId: UUID
+  id: UUID
   user: BigInt
   name: String
   bio: String
@@ -1332,7 +1754,9 @@ input ProfilePatch {
   country: Int
 }
 
-"""All input for the `updateProfile` mutation."""
+"""
+All input for the `updateProfile` mutation.
+"""
 input UpdateProfileInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
@@ -1344,10 +1768,12 @@ input UpdateProfileInput {
   An object where the defined keys will be set on the `Profile` being updated.
   """
   patch: ProfilePatch!
-  rowId: UUID!
+  id: UUID!
 }
 
-"""All input for the `updateProfileByUser` mutation."""
+"""
+All input for the `updateProfileByUser` mutation.
+"""
 input UpdateProfileByUserInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
@@ -1362,7 +1788,9 @@ input UpdateProfileByUserInput {
   user: BigInt!
 }
 
-"""The output of our delete `Country` mutation."""
+"""
+The output of our delete `Country` mutation.
+"""
 type DeleteCountryPayload {
   """
   The exact same `clientMutationId` that was provided in the mutation input,
@@ -1370,24 +1798,32 @@ type DeleteCountryPayload {
   """
   clientMutationId: String
 
-  """The `Country` that was deleted by this mutation."""
+  """
+  The `Country` that was deleted by this mutation.
+  """
   country: Country
-  deletedCountryId: ID
+  deletedCountryNodeId: ID
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
   """
   query: Query
 
-  """An edge for our `Country`. May be used by Relay 1."""
+  """
+  An edge for our `Country`. May be used by Relay 1.
+  """
   countryEdge(
-    """The method to use when ordering `Country`."""
+    """
+    The method to use when ordering `Country`.
+    """
     orderBy: [CountriesOrderBy!] = [PRIMARY_KEY_ASC]
   ): CountriesEdge
 }
 
-"""All input for the `deleteCountryById` mutation."""
-input DeleteCountryByIdInput {
+"""
+All input for the `deleteCountryByNodeId` mutation.
+"""
+input DeleteCountryByNodeIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -1397,20 +1833,24 @@ input DeleteCountryByIdInput {
   """
   The globally unique `ID` which will identify a single `Country` to be deleted.
   """
-  id: ID!
+  nodeId: ID!
 }
 
-"""All input for the `deleteCountry` mutation."""
+"""
+All input for the `deleteCountry` mutation.
+"""
 input DeleteCountryInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
   """
   clientMutationId: String
-  rowId: Int!
+  id: Int!
 }
 
-"""All input for the `deleteCountryByName` mutation."""
+"""
+All input for the `deleteCountryByName` mutation.
+"""
 input DeleteCountryByNameInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
@@ -1420,7 +1860,9 @@ input DeleteCountryByNameInput {
   name: String!
 }
 
-"""The output of our delete `Matchup` mutation."""
+"""
+The output of our delete `Matchup` mutation.
+"""
 type DeleteMatchupPayload {
   """
   The exact same `clientMutationId` that was provided in the mutation input,
@@ -1428,30 +1870,42 @@ type DeleteMatchupPayload {
   """
   clientMutationId: String
 
-  """The `Matchup` that was deleted by this mutation."""
+  """
+  The `Matchup` that was deleted by this mutation.
+  """
   matchup: Matchup
-  deletedMatchupId: ID
+  deletedMatchupNodeId: ID
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
   """
   query: Query
 
-  """Reads a single `Profile` that is related to this `Matchup`."""
+  """
+  Reads a single `Profile` that is related to this `Matchup`.
+  """
   profileBySender: Profile
 
-  """Reads a single `Profile` that is related to this `Matchup`."""
+  """
+  Reads a single `Profile` that is related to this `Matchup`.
+  """
   profileByRecipient: Profile
 
-  """An edge for our `Matchup`. May be used by Relay 1."""
+  """
+  An edge for our `Matchup`. May be used by Relay 1.
+  """
   matchupEdge(
-    """The method to use when ordering `Matchup`."""
+    """
+    The method to use when ordering `Matchup`.
+    """
     orderBy: [MatchupsOrderBy!] = [PRIMARY_KEY_ASC]
   ): MatchupsEdge
 }
 
-"""All input for the `deleteMatchupById` mutation."""
-input DeleteMatchupByIdInput {
+"""
+All input for the `deleteMatchupByNodeId` mutation.
+"""
+input DeleteMatchupByNodeIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -1461,20 +1915,24 @@ input DeleteMatchupByIdInput {
   """
   The globally unique `ID` which will identify a single `Matchup` to be deleted.
   """
-  id: ID!
+  nodeId: ID!
 }
 
-"""All input for the `deleteMatchup` mutation."""
+"""
+All input for the `deleteMatchup` mutation.
+"""
 input DeleteMatchupInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
   """
   clientMutationId: String
-  rowId: UUID!
+  id: UUID!
 }
 
-"""The output of our delete `Message` mutation."""
+"""
+The output of our delete `Message` mutation.
+"""
 type DeleteMessagePayload {
   """
   The exact same `clientMutationId` that was provided in the mutation input,
@@ -1482,30 +1940,42 @@ type DeleteMessagePayload {
   """
   clientMutationId: String
 
-  """The `Message` that was deleted by this mutation."""
+  """
+  The `Message` that was deleted by this mutation.
+  """
   message: Message
-  deletedMessageId: ID
+  deletedMessageNodeId: ID
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
   """
   query: Query
 
-  """Reads a single `Profile` that is related to this `Message`."""
+  """
+  Reads a single `Profile` that is related to this `Message`.
+  """
   profileBySender: Profile
 
-  """Reads a single `Matchup` that is related to this `Message`."""
+  """
+  Reads a single `Matchup` that is related to this `Message`.
+  """
   matchupByMatchup: Matchup
 
-  """An edge for our `Message`. May be used by Relay 1."""
+  """
+  An edge for our `Message`. May be used by Relay 1.
+  """
   messageEdge(
-    """The method to use when ordering `Message`."""
+    """
+    The method to use when ordering `Message`.
+    """
     orderBy: [MessagesOrderBy!] = [PRIMARY_KEY_ASC]
   ): MessagesEdge
 }
 
-"""All input for the `deleteMessageById` mutation."""
-input DeleteMessageByIdInput {
+"""
+All input for the `deleteMessageByNodeId` mutation.
+"""
+input DeleteMessageByNodeIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -1515,20 +1985,24 @@ input DeleteMessageByIdInput {
   """
   The globally unique `ID` which will identify a single `Message` to be deleted.
   """
-  id: ID!
+  nodeId: ID!
 }
 
-"""All input for the `deleteMessage` mutation."""
+"""
+All input for the `deleteMessage` mutation.
+"""
 input DeleteMessageInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
   """
   clientMutationId: String
-  rowId: UUID!
+  id: UUID!
 }
 
-"""The output of our delete `Profile` mutation."""
+"""
+The output of our delete `Profile` mutation.
+"""
 type DeleteProfilePayload {
   """
   The exact same `clientMutationId` that was provided in the mutation input,
@@ -1536,27 +2010,37 @@ type DeleteProfilePayload {
   """
   clientMutationId: String
 
-  """The `Profile` that was deleted by this mutation."""
+  """
+  The `Profile` that was deleted by this mutation.
+  """
   profile: Profile
-  deletedProfileId: ID
+  deletedProfileNodeId: ID
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
   """
   query: Query
 
-  """Reads a single `Country` that is related to this `Profile`."""
+  """
+  Reads a single `Country` that is related to this `Profile`.
+  """
   countryByCountry: Country
 
-  """An edge for our `Profile`. May be used by Relay 1."""
+  """
+  An edge for our `Profile`. May be used by Relay 1.
+  """
   profileEdge(
-    """The method to use when ordering `Profile`."""
+    """
+    The method to use when ordering `Profile`.
+    """
     orderBy: [ProfilesOrderBy!] = [PRIMARY_KEY_ASC]
   ): ProfilesEdge
 }
 
-"""All input for the `deleteProfileById` mutation."""
-input DeleteProfileByIdInput {
+"""
+All input for the `deleteProfileByNodeId` mutation.
+"""
+input DeleteProfileByNodeIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -1566,20 +2050,24 @@ input DeleteProfileByIdInput {
   """
   The globally unique `ID` which will identify a single `Profile` to be deleted.
   """
-  id: ID!
+  nodeId: ID!
 }
 
-"""All input for the `deleteProfile` mutation."""
+"""
+All input for the `deleteProfile` mutation.
+"""
 input DeleteProfileInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
   """
   clientMutationId: String
-  rowId: UUID!
+  id: UUID!
 }
 
-"""All input for the `deleteProfileByUser` mutation."""
+"""
+All input for the `deleteProfileByUser` mutation.
+"""
 input DeleteProfileByUserInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
@@ -1589,7 +2077,9 @@ input DeleteProfileByUserInput {
   user: BigInt!
 }
 
-"""The output of our `createSession` mutation."""
+"""
+The output of our `createSession` mutation.
+"""
 type CreateSessionPayload {
   """
   The exact same `clientMutationId` that was provided in the mutation input,
@@ -1610,7 +2100,9 @@ which securely represents claims between two parties.
 """
 scalar JwtToken
 
-"""All input for the `createSession` mutation."""
+"""
+All input for the `createSession` mutation.
+"""
 input CreateSessionInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
@@ -1652,20 +2144,30 @@ type Subscription {
   """
   The root query type must be a `Node` to work well with Relay 1 mutations. This just resolves to `query`. (live)
   """
-  id: ID!
+  nodeId: ID!
 
-  """Fetches an object given its globally unique `ID`. (live)"""
+  """
+  Fetches an object given its globally unique `ID`. (live)
+  """
   node(
-    """The globally unique `ID`."""
-    id: ID!
+    """
+    The globally unique `ID`.
+    """
+    nodeId: ID!
   ): Node
 
-  """Reads and enables pagination through a set of `Country`. (live)"""
+  """
+  Reads and enables pagination through a set of `Country`. (live)
+  """
   countries(
-    """Only read the first `n` values of the set."""
+    """
+    Only read the first `n` values of the set.
+    """
     first: Int
 
-    """Only read the last `n` values of the set."""
+    """
+    Only read the last `n` values of the set.
+    """
     last: Int
 
     """
@@ -1674,13 +2176,19 @@ type Subscription {
     """
     offset: Int
 
-    """Read all values in the set before (above) this cursor."""
+    """
+    Read all values in the set before (above) this cursor.
+    """
     before: Cursor
 
-    """Read all values in the set after (below) this cursor."""
+    """
+    Read all values in the set after (below) this cursor.
+    """
     after: Cursor
 
-    """The method to use when ordering `Country`."""
+    """
+    The method to use when ordering `Country`.
+    """
     orderBy: [CountriesOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
@@ -1689,12 +2197,18 @@ type Subscription {
     condition: CountryCondition
   ): CountriesConnection
 
-  """Reads and enables pagination through a set of `Matchup`. (live)"""
+  """
+  Reads and enables pagination through a set of `Matchup`. (live)
+  """
   matchups(
-    """Only read the first `n` values of the set."""
+    """
+    Only read the first `n` values of the set.
+    """
     first: Int
 
-    """Only read the last `n` values of the set."""
+    """
+    Only read the last `n` values of the set.
+    """
     last: Int
 
     """
@@ -1703,13 +2217,19 @@ type Subscription {
     """
     offset: Int
 
-    """Read all values in the set before (above) this cursor."""
+    """
+    Read all values in the set before (above) this cursor.
+    """
     before: Cursor
 
-    """Read all values in the set after (below) this cursor."""
+    """
+    Read all values in the set after (below) this cursor.
+    """
     after: Cursor
 
-    """The method to use when ordering `Matchup`."""
+    """
+    The method to use when ordering `Matchup`.
+    """
     orderBy: [MatchupsOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
@@ -1718,12 +2238,18 @@ type Subscription {
     condition: MatchupCondition
   ): MatchupsConnection
 
-  """Reads and enables pagination through a set of `Message`. (live)"""
+  """
+  Reads and enables pagination through a set of `Message`. (live)
+  """
   messages(
-    """Only read the first `n` values of the set."""
+    """
+    Only read the first `n` values of the set.
+    """
     first: Int
 
-    """Only read the last `n` values of the set."""
+    """
+    Only read the last `n` values of the set.
+    """
     last: Int
 
     """
@@ -1732,13 +2258,19 @@ type Subscription {
     """
     offset: Int
 
-    """Read all values in the set before (above) this cursor."""
+    """
+    Read all values in the set before (above) this cursor.
+    """
     before: Cursor
 
-    """Read all values in the set after (below) this cursor."""
+    """
+    Read all values in the set after (below) this cursor.
+    """
     after: Cursor
 
-    """The method to use when ordering `Message`."""
+    """
+    The method to use when ordering `Message`.
+    """
     orderBy: [MessagesOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
@@ -1747,12 +2279,18 @@ type Subscription {
     condition: MessageCondition
   ): MessagesConnection
 
-  """Reads and enables pagination through a set of `Profile`. (live)"""
+  """
+  Reads and enables pagination through a set of `Profile`. (live)
+  """
   profiles(
-    """Only read the first `n` values of the set."""
+    """
+    Only read the first `n` values of the set.
+    """
     first: Int
 
-    """Only read the last `n` values of the set."""
+    """
+    Only read the last `n` values of the set.
+    """
     last: Int
 
     """
@@ -1761,13 +2299,19 @@ type Subscription {
     """
     offset: Int
 
-    """Read all values in the set before (above) this cursor."""
+    """
+    Read all values in the set before (above) this cursor.
+    """
     before: Cursor
 
-    """Read all values in the set after (below) this cursor."""
+    """
+    Read all values in the set after (below) this cursor.
+    """
     after: Cursor
 
-    """The method to use when ordering `Profile`."""
+    """
+    The method to use when ordering `Profile`.
+    """
     orderBy: [ProfilesOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
@@ -1776,57 +2320,93 @@ type Subscription {
     condition: ProfileCondition
   ): ProfilesConnection
 
-  """ (live)"""
-  country(rowId: Int!): Country
+  """
+  (live)
+  """
+  country(id: Int!): Country
 
-  """ (live)"""
+  """
+  (live)
+  """
   countryByName(name: String!): Country
 
-  """ (live)"""
-  matchup(rowId: UUID!): Matchup
+  """
+  (live)
+  """
+  matchup(id: UUID!): Matchup
 
-  """ (live)"""
-  message(rowId: UUID!): Message
+  """
+  (live)
+  """
+  message(id: UUID!): Message
 
-  """ (live)"""
-  profile(rowId: UUID!): Profile
+  """
+  (live)
+  """
+  profile(id: UUID!): Profile
 
-  """ (live)"""
+  """
+  (live)
+  """
   profileByUser(user: BigInt!): Profile
 
-  """ (live)"""
+  """
+  (live)
+  """
   currentProfile: Profile
 
-  """ (live)"""
+  """
+  (live)
+  """
   currentProfileId: UUID
 
-  """ (live)"""
+  """
+  (live)
+  """
   currentSession: Session
 
-  """ (live)"""
+  """
+  (live)
+  """
   currentUser: User
 
-  """Reads a single `Country` using its globally unique `ID`. (live)"""
-  countryById(
-    """The globally unique `ID` to be used in selecting a single `Country`."""
-    id: ID!
+  """
+  Reads a single `Country` using its globally unique `ID`. (live)
+  """
+  countryByNodeId(
+    """
+    The globally unique `ID` to be used in selecting a single `Country`.
+    """
+    nodeId: ID!
   ): Country
 
-  """Reads a single `Matchup` using its globally unique `ID`. (live)"""
-  matchupById(
-    """The globally unique `ID` to be used in selecting a single `Matchup`."""
-    id: ID!
+  """
+  Reads a single `Matchup` using its globally unique `ID`. (live)
+  """
+  matchupByNodeId(
+    """
+    The globally unique `ID` to be used in selecting a single `Matchup`.
+    """
+    nodeId: ID!
   ): Matchup
 
-  """Reads a single `Message` using its globally unique `ID`. (live)"""
-  messageById(
-    """The globally unique `ID` to be used in selecting a single `Message`."""
-    id: ID!
+  """
+  Reads a single `Message` using its globally unique `ID`. (live)
+  """
+  messageByNodeId(
+    """
+    The globally unique `ID` to be used in selecting a single `Message`.
+    """
+    nodeId: ID!
   ): Message
 
-  """Reads a single `Profile` using its globally unique `ID`. (live)"""
-  profileById(
-    """The globally unique `ID` to be used in selecting a single `Profile`."""
-    id: ID!
+  """
+  Reads a single `Profile` using its globally unique `ID`. (live)
+  """
+  profileByNodeId(
+    """
+    The globally unique `ID` to be used in selecting a single `Profile`.
+    """
+    nodeId: ID!
   ): Profile
 }
