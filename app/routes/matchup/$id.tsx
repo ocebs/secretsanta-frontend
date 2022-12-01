@@ -223,7 +223,7 @@ export default function MatchupRoute() {
                   ? "flex-row-reverse"
                   : "flex-row"
               } items-end ${
-                nextMessage?.sender !== node.sender ? "mb-3 md:mb-0" : ""
+                nextMessage?.sender !== node.sender ? "mt-3 md:mt-0" : ""
               }`}
               title={new Date(node?.timestamp).toLocaleString()}
             >
