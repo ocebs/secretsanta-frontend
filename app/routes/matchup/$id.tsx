@@ -97,11 +97,11 @@ const sendMessageMutation = gql`
 
 const messageSubscription = gql`
   ${matchupFragments}
-  subscription MatchupMessages($matchup: UUID!, $cursor: Cursor) {
+  subscription MatchupMessages($matchup: UUID!) {
     matchup(id: $matchup) {
       ...Matchup
 
-      messagesByMatchup(orderBy: TIMESTAMP_DESC, after: $cursor) {
+      messagesByMatchup(orderBy: TIMESTAMP_DESC) {
         ...MessageBody
       }
     }
@@ -141,10 +141,10 @@ export default function MatchupRoute() {
   }
 
   const matchup = (data ?? staticData)?.matchup;
-  const messages = [
-    ...(staticData?.matchup?.messagesByMatchup?.nodes ?? []),
-    ...(data?.matchup?.messagesByMatchup?.nodes ?? []),
-  ];
+  const messages =
+    data?.matchup?.messagesByMatchup?.nodes ??
+    staticData?.matchup?.messagesByMatchup?.nodes ??
+    [];
 
   if (!matchup) return <div>Matchup not found</div>;
 
