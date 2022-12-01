@@ -1,15 +1,15 @@
 import { gql, useMutation, useQuery, useApolloClient } from "@apollo/client";
-import { Link, useNavigate } from "@remix-run/react";
+import { Link } from "@remix-run/react";
 import Avatar from "boring-avatars";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 import { UserPlusIcon } from "@heroicons/react/24/outline";
+import { CheckIcon } from "@heroicons/react/20/solid";
 
 import type {
   CreateSessionMutation,
   HeaderProfileQuery,
 } from "~/__generated__/gql";
-import { useLoginStatusLazyQuery } from "~/__generated__/gql";
 import { Spinner } from "./LoadingScreen";
 import getLink from "~/link";
 
@@ -51,7 +51,7 @@ const navlinks = [
 ];
 
 export default function Header() {
-  const { data, loading, startPolling, stopPolling } =
+  const { data, loading, startPolling, stopPolling, refetch } =
     useQuery<HeaderProfileQuery>(headerQuery);
   const [
     login,
@@ -76,6 +76,7 @@ export default function Header() {
       )};path=/;max-age=31536000;samesite=lax`;
       client.setLink(getLink(document.cookie));
       startPolling(1000);
+      refetch();
     }
   }
 
@@ -123,8 +124,12 @@ export default function Header() {
             </>
           ) : (
             <>
-              <h1 className="flex gap-3">
-                <Spinner /> Creating Session {loginCalled && "login called"}
+              <h1 className="flex items-center gap-3 text-3xl font-bold">
+                {loginCalled && (
+                  <CheckIcon className="absolute w-10 h-10 p-2.5" />
+                )}
+                <Spinner />
+                Creating Session
               </h1>
             </>
           )}
