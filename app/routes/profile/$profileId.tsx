@@ -1,9 +1,10 @@
 import { gql, useQuery } from "@apollo/client";
-import { json, LoaderFunction } from "@remix-run/cloudflare";
+import type { LoaderFunction } from "@remix-run/cloudflare";
+import { json } from "@remix-run/cloudflare";
 import { useLoaderData } from "@remix-run/react";
 import Avatar from "boring-avatars";
 import LoadingScreen from "~/components/LoadingScreen";
-import { ProfilePageQuery } from "~/__generated__/gql";
+import type { ProfilePageQuery } from "~/__generated__/gql";
 
 interface ParamsLoader {
   params: { profileId: string };

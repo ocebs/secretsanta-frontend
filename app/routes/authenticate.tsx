@@ -1,7 +1,7 @@
 import { gql, useQuery } from "@apollo/client";
 import { Link, useNavigate } from "@remix-run/react";
 import { useEffect } from "react";
-import { AuthenticateInfoQuery } from "~/__generated__/gql";
+import type { AuthenticateInfoQuery } from "~/__generated__/gql";
 
 const query = gql`
   query AuthenticateInfo {
@@ -12,6 +12,17 @@ const query = gql`
     }
   }
 `;
+
+export const NoLoginScreen = () => (
+  <div className="flex items-center justify-center flex-1">
+    <article className="prose dark:prose-invert">
+      <h1>No Session</h1>
+      <p>
+        To log in, click the button in the top right corner and reload the page.
+      </p>
+    </article>
+  </div>
+);
 
 export default function AuthenticatePage() {
   const { data, refetch } = useQuery<AuthenticateInfoQuery>(query, {
@@ -51,17 +62,10 @@ export default function AuthenticatePage() {
         <pre>
           <code>/secretsanta login {data?.currentSession?.id}</code>
         </pre>
+        <button onClick={() => refetch()}>Refresh</button>
       </article>
     </div>
   ) : (
-    <div className="flex items-center justify-center flex-1">
-      <article className="prose dark:prose-invert">
-        <h1>No Session</h1>
-        <p>
-          To log in, click the button in the top right corner and reload the
-          page.
-        </p>
-      </article>
-    </div>
+    <NoLoginScreen />
   );
 }

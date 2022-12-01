@@ -5,6 +5,19 @@ import { SubscriptionClient } from "subscriptions-transport-ws";
 import { split } from "@apollo/client";
 import { getMainDefinition } from "@apollo/client/utilities";
 
+const gql_uri = "https://gql.ocebs.com/graphql";
+export const endpoint = { http: "", ws: "" };
+{
+  const baseURL = new URL(gql_uri);
+  const isSecure = baseURL.protocol[4] == "s";
+
+  const wsUrl = new URL(baseURL);
+  wsUrl.protocol = `ws${isSecure ? "s" : ""}`;
+
+  endpoint.http = baseURL.toString();
+  endpoint.ws = wsUrl.toString();
+}
+
 export default function getLink(cookieString: string) {
   const cookies = new Map(
     cookieString.split(/; */g).map((i) => {
@@ -26,10 +39,7 @@ export default function getLink(cookieString: string) {
   });
 
   const httpLink = new BatchHttpLink({
-    uri:
-      typeof window == "undefined"
-        ? "https://gql.ocebs.com/graphql"
-        : "/graphql",
+    uri: typeof window == "undefined" ? endpoint.http : "/graphql",
   });
 
   const token = cookies.get("token");
@@ -41,7 +51,7 @@ export default function getLink(cookieString: string) {
   const wsLink =
     typeof window !== "undefined" &&
     new WebSocketLink(
-      new SubscriptionClient("wss://gql.ocebs.com/graphql", {
+      new SubscriptionClient(endpoint.ws, {
         connectionParams: () => Promise.resolve(connectionParams),
         reconnect: true,
       })

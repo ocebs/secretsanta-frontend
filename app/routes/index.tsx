@@ -1,11 +1,9 @@
-import { useQuery, useSubscription, gql } from "@apollo/client";
+import { useQuery, gql } from "@apollo/client";
 import { Link } from "@remix-run/react";
 import Avatar from "boring-avatars";
 import LoadingScreen from "~/components/LoadingScreen";
-import {
-  MatchupListingLiveSubscription,
-  MatchupListingQuery,
-} from "~/__generated__/gql";
+import type { MatchupListingQuery } from "~/__generated__/gql";
+import { NoLoginScreen } from "./authenticate";
 
 const matchupFragment = gql`
   fragment MatchupInfo on MatchupsConnection {
@@ -13,7 +11,7 @@ const matchupFragment = gql`
       id
       sender
       recipient
-      messagesByMatchup(last: 1) {
+      messagesByMatchup(first: 1, orderBy: TIMESTAMP_DESC) {
         nodes {
           id
           sender
@@ -58,25 +56,18 @@ const query = gql`
     }
   }
 `;
-const subscription = gql`
-  ${matchupFragment}
-  subscription MatchupListingLive {
-    matchups {
-      ...MatchupInfo
-    }
-  }
-`;
 
 export default function Index() {
-  const { data, loading } = useQuery<MatchupListingQuery>(query);
-  const { data: liveData, loading: liveLoading } =
-    useSubscription<MatchupListingLiveSubscription>(subscription);
+  const { data, loading } = useQuery<MatchupListingQuery>(query, {
+    pollInterval: 2000,
+  });
 
-  const matchups = (liveData ?? data)?.matchups?.nodes;
+  const matchups = data?.matchups?.nodes;
+  if (loading || data === undefined) return <LoadingScreen />;
 
-  return (loading && liveLoading) || data === undefined ? (
-    <LoadingScreen />
-  ) : (
+  if (!data.currentProfileId) return <NoLoginScreen />;
+
+  return (
     <div className="w-full max-w-screen-lg p-6 mx-auto">
       {(matchups?.length ?? 0) > 0 ? (
         <div>
@@ -114,9 +105,13 @@ export default function Index() {
                           {!lastMessage ? (
                             <em>No messages</em>
                           ) : (
-                            `${
-                              lastMessage.profileBySender?.name ?? "Mystery Man"
-                            }: ${lastMessage.message}`
+                            <>
+                              <strong className="font-bold text-gray-900 dark:text-gray-200">
+                                {lastMessage.profileBySender?.name ??
+                                  "Mystery Man"}
+                              </strong>
+                              : {lastMessage.message}
+                            </>
                           )}
                         </div>
                       </div>

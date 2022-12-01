@@ -61,11 +61,12 @@ export function links() {
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
   title: "OCE Secret santa",
-  viewport: "width=device-width,initial-scale=1",
+  viewport:
+    "width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no, viewport-fit=cover",
 });
 
 export default function App() {
-  const { data, loading, refetch } = useQuery<HeaderProfileQuery>(profileQuery);
+  const { data, loading } = useQuery<HeaderProfileQuery>(profileQuery);
   const [login, { loading: submitting }] = useMutation<CreateSessionMutation>(
     createSessionMutation
   );
@@ -143,7 +144,7 @@ export default function App() {
               </Link>
             ) : data?.currentSession ? (
               <Link
-                to="/login"
+                to="/authenticate"
                 className={`bg-white/10 hover:bg-white/20 w-10 h-10 rounded-full flex items-center justify-center`}
               >
                 <svg

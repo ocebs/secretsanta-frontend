@@ -1,6 +1,7 @@
-import { ActionFunction, LoaderFunction } from "@remix-run/cloudflare";
+import type { ActionFunction, LoaderFunction } from "@remix-run/cloudflare";
+import { endpoint } from "~/link";
 
 export const loader: LoaderFunction = ({ request }) =>
-  fetch("https://gql.ocebs.com/graphql", request);
+  fetch(endpoint.http, request);
 export const action: ActionFunction = ({ request }) =>
-  fetch("https://gql.ocebs.com/graphql", request);
+  fetch(endpoint.http, request);
