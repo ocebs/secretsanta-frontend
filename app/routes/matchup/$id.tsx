@@ -101,7 +101,7 @@ const messageSubscription = gql`
     matchup(id: $matchup) {
       ...Matchup
 
-      messagesByMatchup(orderBy: TIMESTAMP_ASC, after: $cursor) {
+      messagesByMatchup(orderBy: TIMESTAMP_DESC, after: $cursor) {
         ...MessageBody
       }
     }
