@@ -22,8 +22,8 @@ const profilePageQuery = gql`
       name
       bio
       address
-      country
-      countryByCountry {
+      countryId
+      country {
         id
         name
       }
@@ -67,8 +67,7 @@ export default function ProfilePage() {
           <div className="flex flex-col gap-1">
             <h1 className="text-4xl">{profile.name}</h1>
             <div className="text-2xl">
-              {flags[(profile.country ?? -2) - 1]}{" "}
-              {profile.countryByCountry?.name}
+              {flags[(profile.countryId ?? -2) - 1]} {profile.country?.name}
             </div>
           </div>
         </div>

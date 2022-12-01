@@ -9,13 +9,13 @@ const matchupFragment = gql`
   fragment MatchupInfo on MatchupsConnection {
     nodes {
       id
-      sender
-      recipient
+      senderId
+      recipientId
       messagesByMatchup(first: 1, orderBy: TIMESTAMP_DESC) {
         nodes {
           id
-          sender
-          profileBySender {
+          senderId
+          sender {
             id
             name
           }
@@ -23,22 +23,22 @@ const matchupFragment = gql`
           timestamp
         }
       }
-      profileBySender {
+      sender {
         id
         name
         bio
         address
-        countryByCountry {
+        country {
           id
           name
         }
       }
-      profileByRecipient {
+      recipient {
         id
         name
         bio
         address
-        countryByCountry {
+        country {
           id
           name
         }
@@ -86,9 +86,9 @@ export default function Index() {
                       <div>
                         <Avatar
                           name={
-                            matchup.sender === data.currentProfileId
-                              ? matchup.recipient
-                              : matchup.sender
+                            matchup.senderId === data.currentProfileId
+                              ? matchup.recipientId
+                              : matchup.senderId
                           }
                           size={64}
                           variant="beam"
@@ -96,9 +96,9 @@ export default function Index() {
                       </div>
                       <div className="flex flex-col flex-1 gap-1">
                         <div className="text-xl">
-                          {(matchup.sender === data.currentProfileId
-                            ? matchup.profileByRecipient
-                            : matchup.profileBySender
+                          {(matchup.senderId === data.currentProfileId
+                            ? matchup.recipient
+                            : matchup.sender
                           )?.name ?? "Mystery man"}
                         </div>
                         <div>
@@ -107,8 +107,7 @@ export default function Index() {
                           ) : (
                             <>
                               <strong className="font-bold text-gray-900 dark:text-gray-200">
-                                {lastMessage.profileBySender?.name ??
-                                  "Mystery Man"}
+                                {lastMessage.sender?.name ?? "Mystery Man"}
                               </strong>
                               : {lastMessage.message}
                             </>

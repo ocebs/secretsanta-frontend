@@ -27,8 +27,8 @@ const matchupFragments = gql`
     }
     nodes {
       id
-      sender
-      profileBySender {
+      senderId
+      sender {
         id
         name
       }
@@ -38,20 +38,20 @@ const matchupFragments = gql`
   }
   fragment Matchup on Matchup {
     id
-    sender
-    recipient
-    profileBySender {
+    senderId
+    recipientId
+    sender {
       id
       name
-      countryByCountry {
+      country {
         id
         name
       }
     }
-    profileByRecipient {
+    recipient {
       id
       name
-      countryByCountry {
+      country {
         id
         name
       }
@@ -82,10 +82,10 @@ const profileQuery = gql`
 `;
 
 const sendMessageMutation = gql`
-  mutation SendMessage($message: String!, $matchup: UUID!, $sender: UUID!) {
+  mutation SendMessage($message: String!, $matchup: UUID!, $senderId: UUID!) {
     createMessage(
       input: {
-        message: { sender: $sender, message: $message, matchup: $matchup }
+        message: { senderId: $senderId, message: $message, matchup: $matchup }
       }
     ) {
       message {
@@ -155,12 +155,12 @@ export default function MatchupRoute() {
         key="matchup-header"
       >
         <div className="flex items-center max-w-screen-lg gap-1.5 p-4 px-6 mx-auto ">
-          {matchup?.sender !== staticData?.currentProfileId ? (
+          {matchup?.senderId !== staticData?.currentProfileId ? (
             <>
-              <Avatar name={matchup?.sender} variant="beam" size={32} />
+              <Avatar name={matchup?.senderId} variant="beam" size={32} />
               <span className="font-semibold ">
-                {matchup?.profileBySender?.name ??
-                  (matchup?.recipient == staticData?.currentProfileId
+                {matchup?.sender?.name ??
+                  (matchup?.recipientId == staticData?.currentProfileId
                     ? "Santa himself"
                     : "Captain Incognito")}
               </span>
@@ -169,24 +169,24 @@ export default function MatchupRoute() {
           ) : (
             "You're "
           )}
-          {matchup?.recipient !== staticData?.currentProfileId &&
+          {matchup?.recipientId !== staticData?.currentProfileId &&
             "sending something to"}
-          {matchup?.recipient !== staticData?.currentProfileId && (
+          {matchup?.recipientId !== staticData?.currentProfileId && (
             <>
-              <Avatar name={matchup?.recipient} variant="beam" size={32} />
+              <Avatar name={matchup?.recipientId} variant="beam" size={32} />
               <span className="font-semibold ">
-                {matchup?.profileByRecipient?.name ??
-                  (matchup?.recipient == staticData?.currentProfileId
+                {matchup?.recipient?.name ??
+                  (matchup?.recipientId == staticData?.currentProfileId
                     ? "Santa himself"
                     : "Captain Incognito")}
               </span>
             </>
           )}
-          {matchup?.recipient == staticData?.currentProfileId &&
+          {matchup?.recipientId == staticData?.currentProfileId &&
             "sending you something"}
           <div className="flex items-center justify-end flex-1">
             <Link
-              to={`/profile/${matchup?.profileByRecipient?.id}`}
+              to={`/profile/${matchup?.recipient?.id}`}
               className="block px-4 py-2 text-white rounded shadow-md bg-gradient-to-r from-blue-500 to-purple-600 w-max"
             >
               View Profile
@@ -219,38 +219,43 @@ export default function MatchupRoute() {
             <div
               key={node.id}
               className={`flex gap-2 ${
-                staticData?.currentProfileId == node.sender
+                staticData?.currentProfileId == node.senderId
                   ? "flex-row-reverse"
                   : "flex-row"
               } items-end ${
-                nextMessage?.sender !== node.sender ? "mt-3 md:mt-0" : ""
+                nextMessage?.senderId !== node.senderId ? "mt-3 md:mt-0" : ""
               }`}
               title={new Date(node?.timestamp).toLocaleString()}
             >
-              {previousMessage?.sender !== node.sender ? (
+              {previousMessage?.senderId !== node.senderId ? (
                 <Link
-                  to={`/profile/${node.sender}`}
+                  to={`/profile/${node.senderId}`}
                   className={`w-12 h-12 rounded-full items-end flex overflow-hidden justify-center text-xl flex-shrink-0`}
                 >
-                  <Avatar name={node.sender} square size={48} variant="beam" />
+                  <Avatar
+                    name={node.senderId}
+                    square
+                    size={48}
+                    variant="beam"
+                  />
                 </Link>
               ) : (
                 <div className="w-12" />
               )}
               <div
                 className={`p-3 px-6 ${
-                  staticData?.currentProfileId == node.sender
+                  staticData?.currentProfileId == node.senderId
                     ? "bg-blue-600 text-white"
                     : "bg-gray-200 text-black dark:bg-gray-800 dark:text-white"
                 } rounded-3xl max-w-xl break-words [hyphens:auto] ${
-                  nextMessage?.sender == node.sender
-                    ? node.sender == staticData?.currentProfileId
+                  nextMessage?.senderId == node.senderId
+                    ? node.senderId == staticData?.currentProfileId
                       ? "rounded-tr-md"
                       : "rounded-tl-md"
                     : ""
                 }  ${
-                  previousMessage?.sender == node.sender
-                    ? node.sender == staticData?.currentProfileId
+                  previousMessage?.senderId == node.senderId
+                    ? node.senderId == staticData?.currentProfileId
                       ? "rounded-br-md"
                       : "rounded-bl-md"
                     : ""
@@ -270,7 +275,7 @@ export default function MatchupRoute() {
             variables: {
               message,
               matchup: matchup.id,
-              sender: staticData?.currentProfileId,
+              senderId: staticData?.currentProfileId,
             },
           }).then(() => setMessage(""));
         }}
