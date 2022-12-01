@@ -11,7 +11,10 @@ import Header from "./components/Header";
 import styles from "./__generated__/tailwind.css";
 
 export function links() {
-  return [{ rel: "stylesheet", href: styles }];
+  return [
+    { rel: "stylesheet", href: styles },
+    { rel: "shortcut icon", href: "/logo.svg" },
+  ];
 }
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
