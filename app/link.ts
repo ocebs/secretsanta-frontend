@@ -1,9 +1,9 @@
 import { setContext } from "@apollo/client/link/context";
 import { BatchHttpLink } from "@apollo/client/link/batch-http";
-import { WebSocketLink } from "@apollo/client/link/ws";
-import { SubscriptionClient } from "subscriptions-transport-ws";
+import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
 import { split } from "@apollo/client";
 import { getMainDefinition } from "@apollo/client/utilities";
+import { createClient } from "graphql-ws";
 
 const gql_uri = "https://gql.ocebs.com/graphql";
 export const endpoint = { http: "", ws: "" };
@@ -50,10 +50,10 @@ export default function getLink(cookieString: string) {
 
   const wsLink =
     typeof window !== "undefined" &&
-    new WebSocketLink(
-      new SubscriptionClient(endpoint.ws, {
+    new GraphQLWsLink(
+      createClient({
+        url: endpoint.ws,
         connectionParams: () => Promise.resolve(connectionParams),
-        reconnect: true,
       })
     );
 
