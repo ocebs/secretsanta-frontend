@@ -93,7 +93,7 @@ export default function Header() {
       <div
         ref={(_this) => (loginDialogue.current = _this ?? undefined)}
         aria-hidden={!loginVisible}
-        className={`w-full fixed top-0 left-0 h-full items-center justify-center bg-white dark:bg-gray-900 sm:bg-black/30 shadow-xl transition-all ${
+        className={`w-full fixed top-0 left-0 h-full items-center justify-center bg-white dark:bg-gray-900 sm:bg-black/30 shadow-xl ${
           loginVisible ? "flex" : "hidden"
         } z-50`}
       >
@@ -108,6 +108,8 @@ export default function Header() {
                 <a
                   href="https://discord.com/channels/471250128615899136/564362385956143124"
                   className="underline"
+                  target="_blank"
+                  rel="noreferrer"
                 >
                   #bot-spam
                 </a>{" "}
