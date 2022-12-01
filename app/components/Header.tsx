@@ -1,18 +1,17 @@
-import { gql, useMutation, useQuery } from "@apollo/client";
+import { gql, useMutation, useQuery, useApolloClient } from "@apollo/client";
 import { Link, useNavigate } from "@remix-run/react";
 import Avatar from "boring-avatars";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { UserPlusIcon } from "@heroicons/react/24/outline";
 
-import {
+import type {
   CreateSessionMutation,
   HeaderProfileQuery,
-  useHeaderProfileLazyQuery,
-  useLoginLazyQuery,
-  useSignupStatusLazyQuery,
 } from "~/__generated__/gql";
+import { useLoginStatusLazyQuery } from "~/__generated__/gql";
 import { Spinner } from "./LoadingScreen";
+import getLink from "~/link";
 
 const createSessionMutation = gql`
   mutation CreateSession($description: String!) {
@@ -25,7 +24,6 @@ const createSessionMutation = gql`
 const headerQuery = gql`
   query HeaderProfile {
     currentProfileId
-    getTimestamp
     currentSession {
       id
       description
@@ -33,17 +31,6 @@ const headerQuery = gql`
     currentProfile {
       id
       name
-    }
-  }
-`;
-const loginQuery = gql`
-  query Login {
-    currentProfileId
-    getTimestamp
-    currentSessions {
-      nodes {
-        description
-      }
     }
   }
 `;
@@ -64,17 +51,18 @@ const navlinks = [
 ];
 
 export default function Header() {
-  const { data, loading, subscribeToMore } =
+  const { data, loading, startPolling, stopPolling } =
     useQuery<HeaderProfileQuery>(headerQuery);
-  const [login, { loading: submitting, data: createSessionData }] =
-    useMutation<CreateSessionMutation>(createSessionMutation);
+  const [
+    login,
+    { loading: submitting, data: createSessionData, called: loginCalled },
+  ] = useMutation<CreateSessionMutation>(createSessionMutation);
 
-  const [startPolling, { data: lazyProfile, called }] = useLoginLazyQuery({
-    query: loginQuery,
-    pollInterval: 500,
-  });
+  const client = useApolloClient();
 
-  const loginDialogue = useRef<HTMLDialogElement>();
+  const loginDialogue = useRef<HTMLDivElement>();
+
+  const loginVisible = !data?.currentProfileId;
 
   async function createLogin() {
     const { data } = await login({
@@ -85,30 +73,63 @@ export default function Header() {
     if (data?.createSession?.jwtToken) {
       document.cookie = `token=${encodeURIComponent(
         data?.createSession?.jwtToken
-      )};path=/;max-age=31536000;samesite=lax;secure`;
+      )};path=/;max-age=31536000;samesite=lax`;
+      client.setLink(getLink(document.cookie));
+      startPolling(1000);
     }
-    startPolling();
   }
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    if (!data?.currentProfile && !loginCalled) {
+      createLogin();
+    }
+
+    if (!loginVisible) stopPolling();
+  });
+
   return (
     <>
-      <dialog
+      <div
         ref={(_this) => (loginDialogue.current = _this ?? undefined)}
-        className="w-full p-6 py-12 prose bg-white shadow-xl rounded-xl dark:bg-gray-900"
+        aria-hidden={!loginVisible}
+        className={`w-full fixed top-0 left-0 h-full items-center justify-center bg-white dark:bg-gray-900 sm:bg-black/30 shadow-xl transition-all ${
+          loginVisible ? "flex" : "hidden"
+        } z-50`}
       >
-        <h1 className="flex gap-3">
-          <Spinner />
-          Logging in...
-        </h1>
-        <pre>
-          {JSON.stringify(
-            { data, createSessionData, lazyProfile, called },
-            undefined,
-            2
+        <div className="flex flex-col p-6 gap-3 py-8 sm:h-max max-h[100vh] bg-white dark:bg-gray-900 w-full max-w-[100vw] sm:max-w-screen-sm sm:rounded-xl">
+          {data?.currentSession || createSessionData?.createSession ? (
+            <>
+              <h1 className="flex items-center gap-3 mb-1 text-3xl font-bold">
+                <Spinner /> Log in to OCE Secret Santa
+              </h1>
+              <p>
+                To finish logging in, go to{" "}
+                <a
+                  href="https://discord.com/channels/471250128615899136/564362385956143124"
+                  className="underline"
+                >
+                  #bot-spam
+                </a>{" "}
+                and run the command
+              </p>
+              <pre className="p-4 overflow-auto text-gray-800 bg-gray-100 rounded-lg dark:bg-gray-800 dark:text-gray-200">
+                <code>
+                  /secretsanta login{" "}
+                  <span className="text-blue-600 dark:text-blue-400">
+                    {data?.currentSession?.id}
+                  </span>
+                </code>
+              </pre>
+            </>
+          ) : (
+            <>
+              <h1 className="flex gap-3">
+                <Spinner /> Creating Session {loginCalled && "login called"}
+              </h1>
+            </>
           )}
-        </pre>
-      </dialog>
+        </div>
+      </div>
       <header
         className={`bg-gradient-to-r from-blue-600 to-pink-700 text-white h-20`}
       >

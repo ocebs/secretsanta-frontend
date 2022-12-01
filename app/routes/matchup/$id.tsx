@@ -286,6 +286,7 @@ export default function MatchupRoute() {
               "",
             ].join("\n")}
             autoFocus
+            required
             placeholder="Message"
           />
           <button
