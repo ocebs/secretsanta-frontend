@@ -197,7 +197,7 @@ export default function MatchupRoute() {
       <div className="fixed w-full h-96 dots top-[9.5rem] -mb-96"></div>
       <div
         className={
-          "flex-1 overflow-y-auto gap-1 overflow-x-hidden relative z-10 flex flex-col-reverse pb-24 p-5 max-w-screen-lg mx-auto w-full"
+          "flex-1 overflow-y-auto gap-1 overflow-x-hidden relative z-10 flex flex-col-reverse py-24 p-5 max-w-screen-lg mx-auto w-full"
         }
       >
         {sendError && (
@@ -282,7 +282,7 @@ export default function MatchupRoute() {
             value={currentMessage}
             onChange={(e) => setMessage(e.target.value)}
             className={[
-              `flex-1 p-4 px-6 bg-gray-200 dark:bg-gray-700 ring-transparent shadow dark rounded-full ring-2 ring-inset focus:outline-none focus:ring-blue-600`,
+              `flex-1 p-3 px-6 bg-white dark:bg-gray-700 ring-transparent shadow dark rounded-full ring-2 ring-inset focus:outline-none`,
               "",
             ].join("\n")}
             autoFocus
@@ -292,7 +292,7 @@ export default function MatchupRoute() {
           <button
             type="submit"
             disabled={sendLoading}
-            className="flex items-center justify-center p-3 text-white bg-blue-600 rounded-full hover:brightness-150 w-14 h-14"
+            className="flex items-center justify-center w-12 h-12 text-white bg-blue-600 rounded-full hover:brightness-150"
           >
             <PaperAirplaneIcon className="w-6 h-6" />
           </button>
