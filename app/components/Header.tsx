@@ -119,7 +119,7 @@ export default function Header() {
                 <code>
                   /secretsanta login{" "}
                   <span className="text-blue-600 dark:text-blue-400">
-                    {data?.currentSession?.id}
+                    token:{data?.currentSession?.id}
                   </span>
                 </code>
               </pre>
