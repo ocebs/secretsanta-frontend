@@ -11,6 +11,7 @@ import type {
 } from "~/__generated__/gql";
 import { Spinner } from "./LoadingScreen";
 import getLink from "~/link";
+import ms from "ms";
 
 const createSessionMutation = gql`
   mutation CreateSession($description: String!) {
@@ -66,7 +67,7 @@ export default function Header() {
     if (data?.createSession?.jwtToken) {
       document.cookie = `token=${encodeURIComponent(
         data?.createSession?.jwtToken
-      )};path=/;max-age=31536000;samesite=lax`;
+      )};path=/;max-age=${ms("5 months") / 1000};samesite=lax`;
       client.setLink(getLink(document.cookie));
       startPolling(1000);
       refetch();
