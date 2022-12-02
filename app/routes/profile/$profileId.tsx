@@ -73,9 +73,13 @@ export default function ProfilePage() {
         </div>
         <div className="p-4 mb-6 prose rounded-lg dark:prose-invert max-w-none">
           <h2>Bio</h2>
-          <p>{profile.bio}</p>
+          <div className="whitespace-pre-line">
+            {profile.bio ?? <em>No bio set</em>}
+          </div>
           <h2>Address</h2>
-          <p>{profile.address ?? "No address"}</p>
+          <div className="whitespace-pre-line">
+            {profile.address ?? <em>No address set</em>}
+          </div>
         </div>
       </div>
     </>
