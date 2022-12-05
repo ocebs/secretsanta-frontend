@@ -65,7 +65,7 @@ export default function Header() {
       },
     });
     if (data?.createSession?.jwtToken) {
-      document.cookie = `token=${encodeURIComponent(
+      document.cookie = `authtoken=${encodeURIComponent(
         data?.createSession?.jwtToken
       )};path=/;max-age=${ms("5 months") / 1000};samesite=lax`;
       client.setLink(getLink(document.cookie));

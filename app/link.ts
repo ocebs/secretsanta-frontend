@@ -27,7 +27,7 @@ export default function getLink(cookieString: string) {
   );
 
   const authLink = setContext((_, { headers }) => {
-    const token = cookies.get("token");
+    const token = cookies.get("authtoken");
 
     const headerClone = { ...headers };
 
@@ -42,7 +42,7 @@ export default function getLink(cookieString: string) {
     uri: typeof window == "undefined" ? endpoint.http : "/graphql",
   });
 
-  const token = cookies.get("token");
+  const token = cookies.get("authtoken");
 
   const connectionParams: Record<string, any> = {};
 
